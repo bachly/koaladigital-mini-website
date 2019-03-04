@@ -1,24 +1,46 @@
 import { h, app } from "hyperapp";
+import * as DB from "./airtable";
 
 const state = {
-	
+  songs: []
 };
 
 const actions = {
-  loadCustomers: value => state => {
-    if (!state.allCustomers) {
+  fetchSongs: value => (state, actions) => {
+    if (state.songs.length === 0) {
+      const pageFunc = records => {
+        const songs = records.map(r => ({
+          id: r.id,
+          fields: r.fields
+        }));
+        actions.loadSongs(songs);
+      };
 
+      DB.getSongs(pageFunc).then(result => {
+        console.log("Done");
+      });
     }
   },
-  up: value => state => ({ count: state.count + value })
+  loadSongs: value => state => ({ songs: state.songs.concat(value) })
 };
 
 const view = (state, actions) => (
-  <div>
-    <h1>{state.count}</h1>
-    <button onclick={() => actions.down(1)}>-</button>
-    <button onclick={() => actions.up(1)}>+</button>
+  <div oncreate={actions.fetchSongs}>
+    <SongList />
+    <a href="#" onclick={actions.loadMore}>
+      Load more
+    </a>
   </div>
 );
+
+const SongList = () => (state, actions) => {
+  return (
+    <ol>
+      {state.songs.map(({ id, fields }) => {
+        return <li key={id}>{fields["Name"]}</li>;
+      })}
+    </ol>
+  );
+};
 
 app(state, actions, view, document.getElementById("root"));

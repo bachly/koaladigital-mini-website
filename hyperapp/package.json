@@ -5,9 +5,15 @@
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.3.4",
-    "@babel/plugin-transform-react-jsx": "^7.3.0"
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "babel-preset-env": "^1.7.0"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.3.4",
+    "airtable": "^0.5.9",
     "hyperapp": "^1.2.9"
+  },
+  "scripts": {
+    "start": "parcel index.html"
   }
 }
