@@ -1,0 +1,13 @@
+{
+  "name": "hyperapp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-transform-react-jsx": "^7.3.0"
+  },
+  "dependencies": {
+    "hyperapp": "^1.2.9"
+  }
+}
