@@ -12,7 +12,7 @@ export const getSongs = (pageFunc) => {
     base("Song List")
       .select({
 				maxRecords: 200,
-				pageSize: 10,
+				pageSize: 100,
         view: "Grid view"
       })
       .eachPage(
