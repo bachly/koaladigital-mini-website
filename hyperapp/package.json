@@ -16,6 +16,9 @@
     "hyperapp": "^1.2.9"
   },
   "scripts": {
-    "start": "parcel index.html"
+    "start": "parcel index.html",
+    "deploy": "cp now.json ./dist && now ./dist && rm ./dist/now.json",
+    "launch": "cp now.json ./dist && now alias && rm ./dist/now.json",
+    "now-build": "parcel build index.html"
   }
 }

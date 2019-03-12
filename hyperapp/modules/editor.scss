@@ -1,0 +1,190 @@
+$black: #000000;
+$gray: #5d5d5d;
+$darkred: #c75646;
+$red: #e09690;
+$darkgreen: #8eb33b;
+$green: #cdee69;
+$darkyellow: #d0b03c;
+$yellow: #ffe377;
+$darkblue: #72b3cc;
+$blue: #9cd9f0;
+$darkmagenta: #c8a0d1;
+$magenta: #fbb1f9;
+$darkcyan: #218693;
+$cyan: #77dfd8;
+$lightgray: #b0b0b0;
+$white: #f7f7f7;
+
+$fontsize: 16px;
+$fontsize-s: 0.875rem;
+$fontsize-l: 1.25rem;
+
+body {
+  font-family: monospace;
+  font-size: 16px;
+  height: 100vh;
+  width: 100vw;
+  line-height: 1.5;
+  letter-spacing: -0.5px;
+  /* Disables pull-to-refresh and overscroll glow effect.
+  Still keeps swipe navigations. */
+  overscroll-behavior-y: none;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+$nav-height: 40px;
+
+@mixin clearfix() {
+  &:before,
+  &:after {
+    clear: both;
+    float: none;
+    display: table;
+  }
+}
+
+@mixin outline() {
+  outline-offset: -2px;
+  outline-width: 2px;
+}
+
+.wrapper {
+  @include clearfix();
+  min-width: 100rem;
+  margin: 0 auto;
+}
+
+.main {
+  float: left;
+  width: 70rem;
+}
+
+.sidebar {
+  float: right;
+  height: calc(100vh);
+  border-left: 1px solid $lightgray;
+  width: 30rem;
+}
+
+.menu {
+  height: $nav-height;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 calc(2.5rem + 15px);
+  font-size: $fontsize-l;
+}
+
+.pane {
+  float: left;
+  height: calc(100vh - #{$nav-height}*2);
+  width: 30rem;
+  margin: 0 0 #{$nav-height} 2.5rem;
+
+  &:nth-child(2n + 1) {
+    margin-left: 2.5rem;
+  }
+
+  @media print {
+    display: none;
+
+    &:nth-child(2n) {
+      display: block;
+      column-count: 2;
+      column-rule-width: 1px;
+      column-rule-color: #d3d3d3;
+      column-rule-style: solid;
+      column-gap: 8rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      height: auto;
+      width: auto;
+    }
+  }
+}
+
+#referenceTools {
+  height: $nav-height;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  border-bottom: 1px solid $lightgray;
+
+  button {
+    padding: 10px 15px;
+    color: $darkblue;
+    //border-right: 1px solid $lightgray;
+    @include outline();
+  }
+}
+
+input#referenceSearch {
+  padding: 10px 15px;
+  //border-right: 1px solid $lightgray;
+  background: none;
+  flex: 1;
+  @include outline();
+}
+
+.referenceResultCount {
+  height: $nav-height;
+  padding: 12px 15px;
+  font-size: $fontsize-s;
+}
+
+.referenceResultItem {
+  padding: 12px 15px;
+  font-size: $fontsize-s;
+}
+
+.referenceForm__tags {
+  padding: 0 15px;
+  height: $nav-height;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+/** Quill Editor's snow theme **/
+.editor-wrapper {
+  position: relative;
+}
+
+.sidebar .ql-container {
+  height: calc(100vh - #{$nav-height}* 2);
+}
+
+.ql-editor {
+  font-size: $fontsize-s;
+  line-height: 1.5;
+  font-family: monospace;
+}
+
+.ql-editor .ql-font-monospace {
+  font-family: monospace;
+  line-height: 1.5;
+}
+
+.ql-toolbar.ql-snow {
+  border: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.ql-container.ql-snow {
+  border: none;
+  width: 100%;
+  padding: $nav-height 0 0 0;
+}
