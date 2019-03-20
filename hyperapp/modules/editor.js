@@ -1,11 +1,12 @@
+/* global Quill */
+
 import { h, app } from "hyperapp";
 import "./editor.scss";
-import { networkInterfaces } from "os";
-
-/* global Quill */
+import * as DB from "./firebase";
 
 const state = {
   referencePane: {
+    referenceList: [],
     showNewForm: false,
     showUpdateForm: false
   }
@@ -13,23 +14,25 @@ const state = {
 
 const actions = {
   fetchSongs: value => (state, actions) => {
-    if (state.songs.length === 0) {
-      const pageFunc = records => {
-        const songs = records.map(r => ({
-          id: r.id,
-          fields: r.fields
-        }));
-        actions.loadSongs(songs);
-      };
-
-      DB.getSongs(pageFunc).then(result => {
-        console.log("Done");
-      });
-    }
+    DB.getSongs(pageFunc).then(result => {
+      console.log("Done");
+    });
   },
   loadSongs: value => state => ({ songs: state.songs.concat(value) }),
   referencePane: {
-    toggleNewForm: value => previousState => ({ showNewForm: !previousState.showNewForm })
+    toggleNewForm: value => previousState => ({ showNewForm: !previousState.showNewForm }),
+    addStory: value => previousState => {
+      const story = value;
+      DB.createStory()
+        .then(function(docRef) {
+          console.log("Document written with ID: ", docRef.id);
+        })
+        .catch(function(error) {
+          console.error("Error adding document: ", error);
+        });
+      return {};
+    },
+    loadReferences: value => previousState => {}
   }
 };
 
@@ -52,11 +55,10 @@ const view = (state, actions) => (
 );
 
 const toolbarOptions = [
-  ["bold", "italic", "underline", "strike"], // toggled buttons
-  ["blockquote"],
-  [{ list: "ordered" }, { list: "bullet" }],
-  [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-  ["clean"] // remove formatting button
+  // ["bold", "italic", "underline"], // toggled buttons
+  // ["blockquote"],
+  // [{ list: "ordered" }, { list: "bullet" }],
+  // ["clean"] // remove formatting button
 ];
 
 const ReferencePane = () => (state, actions) => {
@@ -71,7 +73,7 @@ const ReferencePane = () => (state, actions) => {
   };
 
   return (
-    <div id="referencePane">
+    <div id="referencePane" oncreate={() => actions.referencePane.loadReferences()}>
       {isEditing ? (
         <div id="referenceTools">
           <button id="referenceSave">Save</button>
@@ -111,7 +113,7 @@ const ReferenceResults = () => (state, actions) => {
   );
 };
 
-const Editor = ({ id }) => (state, actions) => {
+export const Editor = ({ id }) => (state, actions) => {
   const init = e => {
     var editor = new Quill(e, {
       modules: {
@@ -124,4 +126,4 @@ const Editor = ({ id }) => (state, actions) => {
   return <div id={id} key={id} oncreate={element => init(element)} ondestroy={element => destroy(element)} />;
 };
 
-app(state, actions, view, document.getElementById("root"));
+//app(state, actions, view, document.getElementById("root"));
