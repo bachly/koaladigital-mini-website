@@ -2,15 +2,8 @@
 
 import { h, app } from "hyperapp";
 import "./stories.scss";
-import { db } from "./firebase";
-import { Editor } from "./editor";
-
-const views = {
-  SearchView,
-  CreateView,
-  ItemView,
-  EditView
-};
+import { db, addStory } from "./firebase";
+import { countWords, MAX_WORDS, firstSentence } from "./pure-func";
 
 const state = {
   SearchView: {
@@ -23,7 +16,7 @@ const state = {
   CreateView: {
     newTitle: "",
     newContent: "",
-    suggestedTags: ""
+    newContentWordCount: 0
   },
   ItemView: {
     item: ""
@@ -60,10 +53,35 @@ const actions = {
     }
   },
   CreateView: {
+    handleTitleChange: event => (previousStacte, actions) => {
+      const newTitle = event.target.value || "";
+      return {
+        newTitle
+      };
+    },
+    handleContentChange: event => (previousState, actions) => {
+      const newContent = event.target.value || "";
+      const newTitle = previousState.newTitle === "" ? firstSentence(event.target.value) : previousState.newTitle;
+      const newContentWordCount = countWords(event.target.value || "");
+      return {
+        newTitle,
+        newContent,
+        newContentWordCount
+      };
+    },
     save: callback => (previousState, actions) => {
-      // TODO: Add new item to DB
+      addStory({
+        title: previousState.newTitle,
+        content: previousState.newContent
+      });
+      actions.reset();
       callback();
-    }
+    },
+    reset: () => (previousState, actions) => ({
+      newTitle: "",
+      newContent: "",
+      newContentWordCount: 0
+    })
   },
   navigate: value => (previousState, actions) => {
     return {
@@ -83,7 +101,7 @@ const SearchView = () => (state, actions) => (
     <menu>
       <input type="search" placeholder="Search" />
       <a href="#" onclick={() => actions.navigate("CreateView")}>
-        Create
+        Create a story
       </a>
     </menu>
     <main>
@@ -101,26 +119,49 @@ const SearchView = () => (state, actions) => (
   </div>
 );
 
-const CreateView = ({ onBack }) => (state, actions) => (
-  <div id="CreateView">
-    <menu>
-      <a href="#" onclick={() => onBack()}>
-        Cancel
-      </a>
-      <button onclick={() => actions.CreateView.save(onBack)}>Save</button>
-    </menu>
-    <main>
-      <form>
-        <fieldset>
-          <input type="text" placeholder="Title" />
-        </fieldset>
-        <fieldset>
-          <textarea rows="10" placeholder="Content" />
-        </fieldset>
-      </form>
-    </main>
-  </div>
-);
+const CreateView = ({ onBack }) => (state, actions) => {
+  const tooManyWords = state.CreateView.newContentWordCount > MAX_WORDS;
+  const emptyTitle = state.CreateView.newTitle === "";
+  const emptyContent = state.CreateView.newContent === "";
+  const preventSave = tooManyWords || emptyTitle || emptyContent;
+
+  return (
+    <div id="CreateView">
+      <menu>
+        <a href="#" onclick={() => onBack()}>
+          Cancel
+        </a>
+        <button onclick={() => actions.CreateView.save(onBack)} disabled={preventSave ? "disabled" : ""}>
+          Save
+        </button>
+      </menu>
+      <main>
+        <form>
+          <fieldset>
+            <input
+              type="text"
+              placeholder="Title"
+              value={state.CreateView.newTitle}
+              onchange={event => actions.CreateView.handleTitleChange(event)}
+            />
+          </fieldset>
+          <fieldset>
+            <textarea
+              placeholder="Content"
+              oninput={event => actions.CreateView.handleContentChange(event)}
+              class={tooManyWords ? "error" : ""}
+            />
+          </fieldset>
+          <fieldset>
+            <p>
+              {state.CreateView.newContentWordCount}/{MAX_WORDS} words
+            </p>
+          </fieldset>
+        </form>
+      </main>
+    </div>
+  );
+};
 
 const ItemView = () => (state, actions) => (
   <div id="ItemView">

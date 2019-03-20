@@ -45,7 +45,8 @@ main {
   position: relative;
 }
 
-article, form {
+article,
+form {
   display: block;
   margin-bottom: 3rem;
   max-width: 35rem;
@@ -213,7 +214,7 @@ select {
 }
 
 textarea {
-  min-height: 30rem;
+  min-height: 21rem;
 }
 
 input[type="checkbox"],
@@ -242,7 +243,7 @@ label {
 
 fieldset {
   @include clearfix();
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 form hr {
@@ -279,6 +280,11 @@ input[type="button"] {
   letter-spacing: 2px;
 
   @include outline;
+
+  &[disabled] {
+    background: #CCC;
+    cursor: not-allowed;
+  }
 }
 button:hover,
 input[type="submit"]:hover,
@@ -286,6 +292,10 @@ input[type="reset"]:hover,
 input[type="button"]:hover {
   opacity: 0.8;
   outline: 0;
+
+  &[disabled] {
+    opacity: 1;
+  }
 }
 
 /* Card & Grid
@@ -319,5 +329,19 @@ dd {
     h6 {
       margin: 0.5rem 0;
     }
+  }
+}
+
+/* Utilities */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
+  &.error {
+    border-color: red;
+    color: red;
+  }
+
+  &.error + * {
+    color: red;
   }
 }
