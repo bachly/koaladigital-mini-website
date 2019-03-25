@@ -27,6 +27,7 @@ export function addStory({ title, content }) {
   return db.collection("stories").add({
     title: title,
     content: content,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     tags: extractTags(content)
   });
 }
