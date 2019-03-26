@@ -95,10 +95,11 @@ a {
   color: #000;
   text-decoration: none;
   opacity: 1;
+  color: blue;
   @include outline;
   &:hover {
     opacity: 0.8;
-    color: blue;
+    text-decoration: underline;
   }
 }
 h1 {

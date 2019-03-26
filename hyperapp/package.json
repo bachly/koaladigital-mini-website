@@ -17,10 +17,13 @@
     "airtable": "^0.5.9",
     "firebase": "^5.9.0",
     "hyperapp": "^1.2.9",
-    "mention-hashtag": "^1.1.1"
+    "mention-hashtag": "^1.1.1",
+    "mithril": "^1.1.6",
+    "moment": "^2.24.0",
+    "uuid": "^3.3.2"
   },
   "scripts": {
-    "start": "parcel index.html",
+    "start": "parcel ./modules/pewApp/index.html",
     "deploy": "cp now.json ./dist && now ./dist && rm ./dist/now.json",
     "alias": "cp now.json ./dist && now alias && rm ./dist/now.json",
     "now-build": "parcel build index.html"
