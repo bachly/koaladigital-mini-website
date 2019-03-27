@@ -2,8 +2,8 @@ import { h, app } from "hyperapp";
 import "../styles/main.scss";
 import moment from "moment";
 import { v4 as uniqueId } from "uuid";
-import { DH_NOT_SUITABLE_GENERATOR } from "constants";
 
+const ITEMS_PER_ORDER = 24;
 const PRICE_PER_ITEM = 5;
 const TAX_RATE = 0.1;
 
@@ -50,10 +50,11 @@ const state = {
   customerName: "Specsavers Optometrists - Winston Hills Mall",
   customerAddress: "Shop 60/180-190 Caroline Chisholm Dr, Winston Hills NSW 2153",
   customerId: "DZ5710u6ZvdyyjT53o6t",
-  draftOrderLoading: true,
+  draftOrderIsLoading: true,
   draftOrderLastUpdated: undefined,
   draftOrderItems: [],
   draftOrderIsSaving: false,
+  draftOrderIsClean: false,
   orderList: []
 };
 
@@ -65,54 +66,51 @@ actions.syncDraftOrder = () => (state, actions) => {
     var customer = customerDoc.data();
     actions.loadDraftOrder({
       draftOrderLastUpdated: customer.draftOrder && customer.draftOrder.timestampUpdated,
-      draftOrderItems: (customer.draftOrder && customer.draftOrder.items) || []
+      draftOrderItems: (customer.draftOrder && customer.draftOrder.items) || [],
+      draftOrderIsClean: true
     });
   });
 };
-actions.loadDraftOrder = ({ draftOrderLastUpdated, draftOrderItems }) => {
-  return { draftOrderLastUpdated, draftOrderItems };
-};
-actions.addEmptydraftOrderItems = () => (state, actions) => {
-  state.draftOrderItems.push({
-    id: uniqueId(),
-    name: "",
-    phone: ""
-  });
-  return {
-    draftOrderItems: state.draftOrderItems
-  };
-};
-actions.removeDraftOrderItems = id => (state, actions) => {
-  return {
-    draftOrderItems: state.draftOrderItems.filter(item => id !== item.id)
-  };
-};
+actions.loadDraftOrder = ({ draftOrderLastUpdated, draftOrderItems }) => ({
+  draftOrderLastUpdated,
+  draftOrderItems,
+  draftOrderIsLoading: false
+});
 actions.enterDraftOrderItemDetails = ({ id, name, phone }) => (state, actions) => {
   const itemToUpdate = state.draftOrderItems.find(item => id == item.id);
   if (typeof name !== "undefined") itemToUpdate.name = name;
   if (typeof phone !== "undefined") itemToUpdate.phone = phone;
   return {
-    draftOrderItems: state.draftOrderItems
+    draftOrderItems: state.draftOrderItems,
+    draftOrderIsClean: false
   };
 };
-actions.beforeSaveDraftOrder = () => ({ draftOrderIsSaving: true });
-actions.afterSaveDraftOrder = () => ({ draftOrderIsSaving: false });
+actions.beforeSaveDraftOrder = () => ({ draftOrderIsSaving: true, draftOrderIsClean: false });
+actions.afterSaveDraftOrder = () => ({ draftOrderIsSaving: false, draftOrderIsClean: true });
 actions.createDraftOrder = () => (state, actions) => {
+  const items = Array.apply(null, { length: ITEMS_PER_ORDER }).map((item, index) => ({
+    id: uniqueId(),
+    name: "",
+    phone: ""
+  }));
+
   DB.currentCustomerRef(state.customerId)
     .update({
       draftOrder: {
-        items: [
-          {
-            id: uniqueId(),
-            name: "",
-            phone: ""
-          }
-        ],
+        items,
+        total: 0,
         timestampUpdated: serverTimestamp()
       }
     })
-    .then(function() {
+    .then(() => {
       console.log("DRAFT ORDER CREATED.");
+    });
+};
+actions.cancelDraftOrder = () => (state, actions) => {
+  DB.currentCustomerRef(state.customerId)
+    .update({ draftOrder: null })
+    .then(() => {
+      console.log("DRAFT ORDER CANCELED.");
     });
 };
 actions.saveDraftOrder = () => (state, actions) => {
@@ -166,25 +164,23 @@ actions.updateOrderList = results => {
 const OrderListView = props => (state, actions) => {
   return (
     <div oncreate={() => actions.syncOrderList()}>
-      <h2>Print jobs</h2>
-      <ul>
-        {state.orderList.map(order => {
-          return (
-            <li key={order.id}>
-              {formatTimestamp(order.timestampCreated.seconds)} &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; Number
-              of items: {order.items.length} &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; Total: ${order.total}{" "}
-              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; Status: <strong>{order.status}</strong>{" "}
-              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
-              <a>View</a>
-            </li>
-          );
-        })}
-      </ul>
+      {state.orderList.map(order => {
+        return (
+          <div key={order.id}>
+            <h2>Print Job {order.id}</h2>
+            {formatTimestamp(order.timestampCreated.seconds)} &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; Number
+            of items: {order.items.length} &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; Total: ${order.total}{" "}
+            &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; Status: <strong>{order.status}</strong>{" "}
+            &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+            <hr />
+          </div>
+        );
+      })}
     </div>
   );
 };
 
-const NameAndPhone = ({ id, name, phone, isDeletable }) => (state, actions) => {
+const NameAndPhone = ({ id, name, phone, index }) => (state, actions) => {
   const enter = field => event => {
     event.preventDefault();
     const value = event.target.value;
@@ -196,11 +192,15 @@ const NameAndPhone = ({ id, name, phone, isDeletable }) => (state, actions) => {
 
   return (
     <fieldset id={id}>
+      <span style="font-family: monospace;font-size: .8rem;">
+        {index + 1 < 10 ? `0${index + 1}.` : `${index + 1}.`}
+      </span>
+      &nbsp;
       <input
         onchange={enter("name")}
         type="text"
         name={`Name_${id}`}
-        placeholder="Enter name"
+        placeholder=""
         style="width:40%; display: inline-block;"
         value={name}
         autocomplete="new"
@@ -209,56 +209,90 @@ const NameAndPhone = ({ id, name, phone, isDeletable }) => (state, actions) => {
         onchange={enter("phone")}
         type="text"
         name={`Phone_${id}`}
-        placeholder="Enter phone"
+        placeholder=""
         style="width:40%; display: inline-block;"
         value={phone}
         autocomplete="new"
       />
-      {isDeletable ? <a onclick={() => actions.removeDraftOrderItems(id)}>Remove</a> : ""}
     </fieldset>
   );
 };
 
 const DraftOrderForm = props => (state, actions) => {
   const canSave = () => {
-    const noEmptyItem = state.draftOrderItems.filter(item => !item.name || !item.phone).length > 0;
-    const noPendingEdit = !state.draftOrderIsSaving;
-    return noEmptyItem && noPendingEdit;
+    const atLeastOneLabel = state.draftOrderItems.filter(item => item.name !== "" && item.phone !== "").length >= 1;
+    return atLeastOneLabel;
   };
+
+  const canPay = () => canSave && state.draftOrderIsClean;
+  const column1 = [];
+  const column2 = [];
+  const column3 = [];
+
+  if (state.draftOrderItems.length > 0) {
+    for (let i = 0; i < 8; i++) {
+      const item = state.draftOrderItems[i];
+      column1.push(<NameAndPhone key={item.id} {...item} index={i} />);
+    }
+
+    for (let i = 8; i < 16; i++) {
+      const item = state.draftOrderItems[i];
+      column2.push(<NameAndPhone key={item.id} {...item} index={i} />);
+    }
+
+    for (let i = 16; i < 24; i++) {
+      const item = state.draftOrderItems[i];
+      column3.push(<NameAndPhone key={item.id} {...item} index={i} />);
+    }
+  }
 
   return (
     <div oncreate={() => actions.syncDraftOrder()}>
-      {state.draftOrderItems.length === 0 ? (
+      {state.draftOrderIsLoading ? (
+        <h2>Loading...</h2>
+      ) : state.draftOrderItems.length === 0 ? (
         <h2>
-          <a onclick={() => actions.createDraftOrder()}>Create</a>
+          <a href="#" onclick={() => actions.createDraftOrder()}>
+            New print job
+          </a>
         </h2>
       ) : (
-        <form
-          onsubmit={event => {
-            event.preventDefault();
-            actions.saveDraftOrder();
-          }}
-        >
-          <h2>Draft order</h2>
-
+        <div>
+          <h2>New print job</h2>
+          <h5>Enter up to {ITEMS_PER_ORDER} Personalised Labels</h5>
+          <dl style="margin: 0;">
+            <dd>{column1}</dd>
+            <dd>{column2}</dd>
+            <dd>{column3}</dd>
+          </dl>
+          <br />
+          <menu>
+            <div>
+              <button
+                disabled={!canSave()}
+                onclick={event => {
+                  event.preventDefault();
+                  actions.saveDraftOrder();
+                }}
+              >
+                Save
+              </button>
+              <button onclick={() => actions.cancelDraftOrder()}>Cancel</button>
+            </div>
+            <button type="submit"
+              disabled={!canPay()}
+              onclick={event => {
+                event.preventDefault();
+                alert("Start Stripe Payment");
+              }}
+            >
+              Finalise & Send to Printer
+            </button>
+          </menu>
           <p>
             Last updated: {formatTimestampFromNow(state.draftOrderLastUpdated && state.draftOrderLastUpdated.seconds)}
           </p>
-
-          <h5>Names and phone numbers</h5>
-          {state.draftOrderItems.map((item, index) => (
-            <NameAndPhone key={item.id} {...item} isDeletable={index === 0 ? false : true} />
-          ))}
-
-          <fieldset>
-            <a onclick={() => actions.addEmptydraftOrderItems()}>Add +</a>
-          </fieldset>
-          <hr />
-          <fieldset>
-            <button disabled={canSave()}>Save</button>
-            <button disabled={canSave()}>Pay</button>
-          </fieldset>
-        </form>
+        </div>
       )}
     </div>
   );
@@ -267,12 +301,12 @@ const DraftOrderForm = props => (state, actions) => {
 const view = (state, actions) => {
   return (
     <div>
-      <menu>
-        <span>
-          {state.customerName} ({state.customerAddress})
-        </span>
-        <a>Log out</a>
-      </menu>
+      <header>
+        <menu>
+          <a>P.E.W</a>
+          <a>Log out</a>
+        </menu>
+      </header>
       <main>
         <DraftOrderForm />
         <hr />
