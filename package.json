@@ -1,0 +1,19 @@
+{
+  "name": "koaladigital",
+  "description": "Koala Digital's homepage",
+  "version": "19.4.4",
+  "license": "UNLICENSED",
+  "private": true,
+  "engines": {
+    "node": "10.15.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.8.2",
+    "postcss-cli": "^7.1.1",
+    "tailwindcss": "^1.4.6"
+  },
+  "scripts": {
+    "serve": "serve",
+    "css": "postcss tailwind.css -o /css/tailwind.css"
+  }
+}
