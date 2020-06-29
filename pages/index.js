@@ -49,7 +49,7 @@ function HomePage() {
   return (
     <div className="bg-white pt-12 text-gray-900">
       <header className="mt-6 lg:mt-64 bg-white px-3 lg:px-12">
-        <div className="max-w-lg lg:max-w-full">
+        <div className="lg:max-w-lg lg:max-w-full">
           <h1 className="text-3xl lg:text-6xl font-black leading-tight">
             KoalaDigital is a Web, Shopify and Designer service in the
             <span>Ryde areas of Sydney Australia</span>
@@ -63,9 +63,9 @@ function HomePage() {
         </div>
       </header>
 
-      <section className="mt-24 px-3 lg:mt-48 lg:px-12">
+      <section className="mt-24 px-0 lg:mt-48 lg:px-12">
         <div className="mx-auto lg:max-w-full">
-          <h2 className="text-3xl lg:text-5xl font-bold leading-tight">
+          <h2 className="text-3xl px-4 lg:text-5xl font-bold leading-tight">
             Sample work
           </h2>
           <div className="flex flex-wrap mt-12 lg:mt-24">
@@ -76,9 +76,9 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="mt-24 lg:mt-48 px-3 lg:px-12 py-12 lg:py-24 bg-black text-gray-400">
-        <div className="max-w-lg mx-auto lg:max-w-full">
-          <h2 className="text-xl lg:text-5xl font-bold leading-tight">
+      <section className="mt-24 lg:mt-48 px-0 lg:px-16 py-12 lg:py-24 bg-black text-gray-400">
+        <div className="px-4 lg:max-w-full">
+          <h2 className="text-xl md:text-2xl lg:text-5xl font-bold leading-tight">
             Whether you want to try a new idea, refresh an existing website, or
             simply need a webmaster who can look after your digital presence,
             feel free to drop us an email. First consultation is on us.{` `}
