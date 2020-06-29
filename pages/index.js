@@ -51,7 +51,7 @@ function HomePage() {
       <header className="mt-6 lg:mt-64 bg-white px-3 lg:px-12">
         <div className="lg:max-w-lg lg:max-w-full">
           <h1 className="text-3xl lg:text-6xl font-black leading-tight">
-            KoalaDigital is a Web, Shopify and Designer service in the
+            KoalaDigital is a Web, Shopify and Designer service in the 
             <span>Ryde areas of Sydney Australia</span>
           </h1>
           <p className="mt-6 text-2xl lg:text-4xl leading-snug">
