@@ -9,11 +9,21 @@
   },
   "devDependencies": {
     "autoprefixer": "^9.8.2",
+    "frontmatter-markdown-loader": "^3.6.0",
     "postcss-cli": "^7.1.1",
+    "react-markdown": "^4.3.1",
     "tailwindcss": "^1.4.6"
   },
   "scripts": {
-    "serve": "serve",
-    "css": "postcss tailwind.css -o /css/tailwind.css"
+    "dev": "next",
+    "css": "postcss tailwind.css -o public/css/tailwind.css",
+    "build": "next build",
+    "start": "next start",
+    "export": "npm run build && next export"
+  },
+  "dependencies": {
+    "next": "^9.4.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   }
 }
