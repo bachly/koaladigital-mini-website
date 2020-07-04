@@ -12,6 +12,7 @@ module.exports = {
   exportPathMap: async function () {
     const paths = {
       "/": { page: "/" },
+      "/pmotag": { page: "/pomotag" },
     };
 
     // get all .md files in the lists dir
