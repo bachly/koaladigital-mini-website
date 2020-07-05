@@ -8,6 +8,10 @@ const initialItems = [
     datetimeStarted: "2 July 2pm",
   },
   {
+    name: "Invoice monthly bill for #Koala and #RowmarkAustralia",
+    datetimeStarted: "2 July 2pm",
+  },
+  {
     name: "Work on the Payment screens for #RemoteCheckPayment",
     datetimeStarted: "2 July 3pm",
   },
@@ -118,9 +122,16 @@ function PomoTagPage() {
     state.items.map((item) => {
       const hashTags = getHashTags(item.name) || [];
       const firstTag = hashTags[0];
-      if (firstTag) {
-        itemsByFirstTag[firstTag].push(item);
-      }
+      const tag = firstTag || "notag";
+      itemsByFirstTag[tag] = itemsByFirstTag[tag] || {};
+      const currenItems = itemsByFirstTag[tag].items || [];
+      currenItems.push(item);
+      itemsByFirstTag[tag] = {
+        ...itemsByFirstTag[tag],
+        tag,
+        items: currenItems,
+        latestItem: item,
+      };
     });
 
     return itemsByFirstTag;
@@ -137,7 +148,7 @@ function PomoTagPage() {
         </h1>
       </header>
       <main className="py-3 px-5 lg:px-6">
-        <div className="max-w-4xl flex flex-col lg:flex-row items-start">
+        <div className=" max-w-full flex flex-col lg:flex-row items-start">
           <div className="w-full lg:w-1/3">
             <div className="">
               <CardSimple>
@@ -241,16 +252,17 @@ function PomoTagPage() {
                 </CardTitle>
 
                 <div className="bg-gray-100 rounded-b-md">
-                  <ListItems items={state.items} />
+                  <ListTags itemsByFirstTag={itemsByFirstTag(state.items)} />
                 </div>
               </CardSimple>
             </div>
           </div>
           <div className="w-full mt-6 lg:mt-0 lg:w-2/3 lg:pl-6">
             <CardSimple>
-              <CardTitle>
-                <div className="font-bold text-lg">#tagname</div>
-              </CardTitle>
+              <input
+                className="bg-gray-200 w-full px-5 py-3 border-b border-gray-400 rounded-t-md"
+                placeholder="Search"
+              />
               <div className="bg-gray-100 rounded-b-md">
                 <ListItems items={state.items} />
               </div>
@@ -295,11 +307,27 @@ function ListItems({ items }) {
   return items.map((item, index) => (
     <div key={index} className="border-b border-gray-300 pr-6 ml-6">
       <div className="border-t-2 border-white flex py-3">
-        <span className="w-4/6">{item.name}</span>
-        <span className="w-2/6 text-gray-500 text-right">
+        <span className="w-4/6 lg:w-5/6">{item.name}</span>
+        <span className="w-2/6 lg:w-1/6 text-gray-500 text-right">
           {item.datetimeStarted}
         </span>
       </div>
     </div>
   ));
+}
+
+function ListTags({ itemsByFirstTag }) {
+  return Object.keys(itemsByFirstTag).map((index) => {
+    const tag = itemsByFirstTag[index];
+    return (
+      <div key={index} className="border-b border-gray-300 pr-6 ml-6">
+        <div className="border-t-2 border-white flex py-3">
+          <span className="w-4/6">#{tag.tag}</span>
+          <span className="w-2/6 text-gray-500 text-right">
+            {(tag.items.length * 30) / 60} h
+          </span>
+        </div>
+      </div>
+    );
+  });
 }
