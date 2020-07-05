@@ -21,55 +21,79 @@ const initialItems = [
   },
 ];
 
-const pomoInitialState = {
-  running: false,
-  remainingSeconds: 1500,
-};
+function reducer(state, { type, payload }) {
+  switch (type) {
+    case "toggleManualMode":
+      return {
+        ...state,
+        manualModeOn: !state.manualModeOn,
+      };
+    case "startPomo":
+      return {
+        ...state,
+        running: true,
+        remainingSeconds: 1500,
+      };
+    case "cancelPomo":
+      return {
+        ...state,
+        running: false,
+      };
+    case "stopPomo":
+      return {
+        ...state,
+        running: false,
+      };
+    case "changeEntry":
+      return {
+        ...state,
+        newEntry: payload,
+      };
+    case "countdownPomo":
+      return {
+        ...state,
+        remainingSeconds: payload.remainingSeconds,
+      };
+    default:
+      return state;
+  }
+}
 
 function PomoTagPage() {
-  const [manualModeOn, setManualOn] = React.useState(false);
-  const [pomoState, setPomoState] = React.useState(pomoInitialState);
-  const [state, setState] = React.useState({
+  const [state, dispatch] = React.useReducer(reducer, {
+    manualModeOn: false,
     newEntry: "",
     items: initialItems,
+    running: false,
+    remainingSeconds: 1500,
   });
 
   function toggleManualMode(event) {
     event.preventDefault();
-    setManualOn(!manualModeOn);
+    dispatch({ type: "toggleManualMode" });
   }
 
   function startPomo(event) {
     event.preventDefault();
-    setPomoState((state) => ({
-      ...state,
-      running: true,
-      remainingSeconds: 1500,
-    }));
+    dispatch({ type: "startPomo" });
   }
 
   function cancelPomo(event) {
     event.preventDefault();
-    setPomoState((state) => ({
-      ...state,
-      running: false,
-    }));
+    dispatch({ type: "cancelPomo" });
   }
 
-  function donePomo(event) {
+  function stopPomo(event) {
     event.preventDefault();
-    setPomoState((state) => ({
-      ...state,
-      running: false,
-    }));
+    dispatch({ type: "stopPomo" });
   }
 
   function changeEntry(event) {
     event.persist();
-    setState((state) => ({
-      ...state,
-      newEntry: event.target.value,
-    }));
+    dispatch({
+      type: "changeEntry",
+      payload: event.target.value,
+    });
   }
 
   function saveEntry(event) {
@@ -93,27 +117,28 @@ function PomoTagPage() {
     }
   }
 
-  const minuteDisplay = () => Math.floor(pomoState.remainingSeconds / 60);
+  const minuteDisplay = () => Math.floor(state.remainingSeconds / 60);
   const secondDisplay = () => {
-    const mod = Math.floor(pomoState.remainingSeconds % 60);
+    const mod = Math.floor(state.remainingSeconds % 60);
     return mod < 10 ? `0${mod}` : mod;
   };
 
   useInterval(
     () => {
-      if (pomoState.remainingSeconds === 0) {
-        setPomoState((state) => ({
-          ...state,
-          running: false,
-        }));
+      if (state.remainingSeconds === 0) {
+        dispatch({
+          type: "stopPomo",
+        });
       } else {
-        setPomoState((state) => ({
-          ...state,
-          remainingSeconds: state.remainingSeconds - 1,
-        }));
+        dispatch({
+          type: "countdownPomo",
+          payload: {
+            remainingSeconds: state.remainingSeconds - 1,
+          },
+        });
       }
     },
-    pomoState.running ? 1000 : 0
+    state && state.running ? 1000 : 0
   );
 
   function itemsByFirstTag() {
@@ -153,25 +178,13 @@ function PomoTagPage() {
             <div className="">
               <CardSimple>
                 <CardTitle>
-                  <div className="font-bold text-lg">
-                    {manualModeOn ? `Manual` : `Pomodoro`}
-                  </div>
-                  <div>
-                    {!manualModeOn ? (
-                      <button
-                        className="text-red-600"
-                        onClick={toggleManualMode}
-                      >
-                        {`Manual`}
-                      </button>
-                    ) : (
-                      <></>
-                    )}
+                  <div className="font-bold text-md">
+                    {state.manualModeOn ? `Manual` : `Pomodoro`}
                   </div>
                 </CardTitle>
 
                 <div className="bg-gray-100 border-b border-gray-400 h-24 flex flex-col justify-center">
-                  {manualModeOn ? (
+                  {state.manualModeOn ? (
                     <>
                       <div className="h-full">
                         <textarea
@@ -182,7 +195,7 @@ function PomoTagPage() {
                         ></textarea>
                       </div>
                     </>
-                  ) : pomoState.running ? (
+                  ) : state.running ? (
                     <>
                       <div className="px-5 font-bold text-6xl leading-tight text-gray-800 text-center">
                         <span className="text-red-600">{minuteDisplay()}</span>
@@ -200,55 +213,54 @@ function PomoTagPage() {
                 </div>
 
                 <div className="flex justify-between px-5 py-3">
-                  {manualModeOn ? (
+                  {state.manualModeOn ? (
                     <>
                       <Button onClick={saveEntry}>
                         <div className="text-lg font-bold text-red-600">
                           Save
                         </div>
                       </Button>
-                    </>
-                  ) : pomoState.running ? (
-                    <>
-                      <Button onClick={donePomo}>
-                        <div className="text-lg font-bold text-red-600">
-                          Done
-                        </div>
-                      </Button>
-                    </>
-                  ) : (
-                    <Button onClick={startPomo}>
-                      <div className="text-lg font-bold text-red-600">
-                        Start
-                      </div>
-                    </Button>
-                  )}
-                  <div className="text-center">
-                    {pomoState.running ? (
                       <button
-                        className="text-red-600 mt-2"
-                        onClick={cancelPomo}
-                      >
-                        Cancel
-                      </button>
-                    ) : manualModeOn ? (
-                      <button
-                        className="text-red-600 mt-2"
+                        className="text-red-600"
                         onClick={toggleManualMode}
                       >
                         Cancel
                       </button>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
+                    </>
+                  ) : state.running ? (
+                    <>
+                      <Button onClick={stopPomo}>
+                        <div className="text-lg font-bold text-red-600">
+                          Stop
+                        </div>
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button onClick={startPomo}>
+                        <div className="text-lg font-bold text-red-600">
+                          Start
+                        </div>
+                      </Button>
+                      {!state.manualModeOn ? (
+                        <button
+                          className="text-red-600"
+                          onClick={toggleManualMode}
+                        >
+                          {`Manual`}
+                        </button>
+                      ) : (
+                        <></>
+                      )}
+                    </>
+                  )}
                 </div>
               </CardSimple>
             </div>
             <div className="mt-6">
               <CardSimple className="mt-6">
                 <CardTitle>
-                  <div className="font-bold text-lg">Today</div>
+                  <div className="font-bold text-md">Today</div>
                 </CardTitle>
 
                 <div className="bg-gray-100 rounded-b-md">
@@ -260,7 +272,7 @@ function PomoTagPage() {
           <div className="w-full mt-6 lg:mt-0 lg:w-2/3 lg:pl-6">
             <CardSimple>
               <input
-                className="bg-gray-200 w-full px-5 py-3 border-b border-gray-400 rounded-t-md"
+                className="bg-white w-full px-5 py-3 border-b border-gray-400 rounded-t-md"
                 placeholder="Search"
               />
               <div className="bg-gray-100 rounded-b-md">
@@ -306,7 +318,7 @@ function Button({ type, children, onClick }) {
 function ListItems({ items }) {
   return items.map((item, index) => (
     <div key={index} className="border-b border-gray-300 pr-6 ml-6">
-      <div className="border-t-2 border-white flex py-3">
+      <div className="text-sm lg:text-base border-t-2 border-white flex py-3">
         <span className="w-4/6 lg:w-5/6">{item.name}</span>
         <span className="w-2/6 lg:w-1/6 text-gray-500 text-right">
           {item.datetimeStarted}
@@ -321,7 +333,7 @@ function ListTags({ itemsByFirstTag }) {
     const tag = itemsByFirstTag[index];
     return (
       <div key={index} className="border-b border-gray-300 pr-6 ml-6">
-        <div className="border-t-2 border-white flex py-3">
+        <div className="text-sm lg:text-base border-t-2 border-white flex py-3">
           <span className="w-4/6">#{tag.tag}</span>
           <span className="w-2/6 text-gray-500 text-right">
             {(tag.items.length * 30) / 60} h
