@@ -1,48 +1,70 @@
 import React from "react";
 import { useInterval } from "../components/customHooks";
 import { getHashTags } from "../components/pureFunctions";
+import { format } from "date-fns";
 
 const initialItems = [
   {
     name: "Create PomoTag app for #Koala",
-    datetimeStarted: "2 July 2pm",
+    datetimeCreated: new Date("2020-07-01"),
+    accumulatedSeconds: 1500,
   },
   {
     name: "Invoice monthly bill for #Koala and #RowmarkAustralia",
-    datetimeStarted: "2 July 2pm",
+    datetimeCreated: new Date("2020-07-01"),
+    accumulatedSeconds: 500,
   },
   {
     name: "Work on the Payment screens for #RemoteCheckPayment",
-    datetimeStarted: "2 July 3pm",
+    datetimeCreated: new Date("2020-07-01"),
+    accumulatedSeconds: 1500,
   },
   {
     name: "Turn on TroPro 2020 Week 4 for #RowmarkAustralia",
-    datetimeStarted: "2 July 4pm",
+    datetimeCreated: new Date("2020-07-01"),
+    accumulatedSeconds: 1500,
   },
 ];
 
+const INITIAL_POMO_SECONDS = 1500;
+const BREAK_POMO_SECONDS = 300;
+const FULL_POMO_SECONDS = 1800;
+
 function reducer(state, { type, payload }) {
   switch (type) {
-    case "toggleManualMode":
-      return {
-        ...state,
-        manualModeOn: !state.manualModeOn,
-      };
     case "startPomo":
       return {
         ...state,
         running: true,
-        remainingSeconds: 1500,
+        remainingSeconds: INITIAL_POMO_SECONDS,
       };
     case "cancelPomo":
       return {
         ...state,
         running: false,
+        manualModeOn: false,
       };
     case "stopPomo":
       return {
         ...state,
         running: false,
+        manualModeOn: true,
+        newEntrySeconds: accumMinutes(state.remainingSeconds) * 60,
+      };
+    case "startBreak":
+      return {
+        ...state,
+        running: true,
+        remainingSeconds: BREAK_POMO_SECONDS,
+        breakModeOn: true,
+      };
+    case "endPomo":
+      return {
+        ...state,
+        running: false,
+        breakModeOn: false,
+        manualModeOn: true,
+        newEntrySeconds: FULL_POMO_SECONDS,
       };
     case "changeEntry":
       return {
@@ -54,6 +76,22 @@ function reducer(state, { type, payload }) {
         ...state,
         remainingSeconds: payload.remainingSeconds,
       };
+    case "saveEntry":
+      const updatedItems = state.items;
+      const name =
+        state.newEntry === "" ? "Something #awesome" : state.newEntry;
+      updatedItems.push({
+        name,
+        datetimeCreated: new Date(),
+        accumulatedSeconds: newEntrySeconds,
+      });
+
+      return {
+        ...state,
+        items: updatedItems,
+        newEntry: "",
+        manualModeOn: false,
+      };
     default:
       return state;
   }
@@ -62,20 +100,17 @@ function reducer(state, { type, payload }) {
 function PomoTagPage() {
   const [state, dispatch] = React.useReducer(reducer, {
     manualModeOn: false,
+    breakModeOn: false,
     newEntry: "",
+    newEntrySeconds: "",
     items: initialItems,
     running: false,
-    remainingSeconds: 1500,
+    remainingSeconds: INITIAL_POMO_SECONDS,
   });
-
-  function toggleManualMode(event) {
-    event.preventDefault();
-    dispatch({ type: "toggleManualMode" });
-  }
 
   function startPomo(event) {
     event.preventDefault();
-    dispatch({ type: "startPomo" });
+    dispatch({ type: "startPomo", remainingSeconds: INITIAL_POMO_SECONDS });
   }
 
   function cancelPomo(event) {
@@ -99,22 +134,9 @@ function PomoTagPage() {
   function saveEntry(event) {
     event.persist();
     event.preventDefault();
-
-    if (state.newEntry != "") {
-      const currentItems = state.items;
-      currentItems.push({
-        name: state.newEntry,
-        datetimeStarted: "2 July 4pm",
-      });
-
-      setState((state) => ({
-        ...state,
-        items: currentItems,
-        newEntry: "",
-      }));
-
-      setManualOn(false);
-    }
+    dispatch({
+      type: "saveEntry",
+    });
   }
 
   const minuteDisplay = () => Math.floor(state.remainingSeconds / 60);
@@ -125,20 +147,26 @@ function PomoTagPage() {
 
   useInterval(
     () => {
-      if (state.remainingSeconds === 0) {
-        dispatch({
-          type: "stopPomo",
-        });
-      } else {
+      if (state.remainingSeconds > 0) {
         dispatch({
           type: "countdownPomo",
           payload: {
             remainingSeconds: state.remainingSeconds - 1,
           },
         });
+      } else {
+        if (!breakModeOn) {
+          dispatch({
+            type: "startBreak",
+          });
+        } else {
+          dispatch({
+            type: "endPomo",
+          });
+        }
       }
     },
-    state && state.running ? 1000 : 0
+    state && state.running ? 1000 : null
   );
 
   function itemsByFirstTag() {
@@ -163,125 +191,126 @@ function PomoTagPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-200">
-      <header
-        className="mb-3 bg-white shadow-sm h-48"
-        style={{ marginBottom: "-5rem" }}
-      >
-        <h1 className="px-5 pt-8 font-bold text-4xl leading-tight text-gray-900">
-          Pomo<span className="text-red-600">Tag</span>
-        </h1>
-      </header>
-      <main className="py-3 px-5 lg:px-6">
-        <div className=" max-w-full flex flex-col lg:flex-row items-start">
-          <div className="w-full lg:w-1/3">
-            <div className="">
-              <CardSimple>
-                <CardTitle>
-                  <div className="font-bold text-md">
-                    {state.manualModeOn ? `Manual` : `Pomodoro`}
+    <div className="bg-gray-800">
+      <div className="max-w-6xl min-h-screen bg-gray-200">
+        <header
+          className="px-1 py-3 bg-white shadow-sm h-10 lg:h-24 flex items-center"
+          style={{ marginBottom: "-2.5rem" }}
+        ></header>
+        <main className="py-3 lg:px-6">
+          <div className="flex flex-col lg:flex-row items-start">
+            <div className="w-full lg:w-1/3">
+              <div className="px-6 lg:px-1">
+                <CardSimple>
+                  <div className="border-b border-gray-400">
+                    <div className="flex justify-between items-center">
+                      <div className="px-5 font-bold text-2xl leading-tight text-center">
+                        {state.running ? (
+                          <>
+                            <span className="text-red-600">
+                              {minuteDisplay()}
+                            </span>
+                            <span className="text-red-400">
+                              :{secondDisplay()}
+                            </span>
+                          </>
+                        ) : state.manualModeOn ? (
+                          <>
+                            <span className="text-gray-500">
+                              {accumMinutes(state.remainingSeconds)}
+                            </span>
+                            <span className="text-gray-400"> min</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-gray-500">25</span>
+                            <span className="text-gray-400">:00</span>
+                          </>
+                        )}
+                      </div>
+
+                      <div className="px-5 py-3">
+                        {state.running ? (
+                          <>
+                            <button
+                              id="StopPomo"
+                              className="rounded-md border border-b-4 border-red-800 bg-red-600 text-white px-5 py-1"
+                              onClick={stopPomo}
+                            >
+                              Stop
+                            </button>
+                          </>
+                        ) : state.manualModeOn ? (
+                          <>
+                            <button
+                              id="CancelPomo"
+                              className="rounded-md text-gray-600 px-2 py-1 mr-2"
+                              onClick={cancelPomo}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              id="SavePomo"
+                              className="rounded-md border border-b-4 border-green-800 text-white bg-green-600 px-4 py-1"
+                              onClick={saveEntry}
+                            >
+                              Save
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              id="StartPomo"
+                              className="rounded-md border border-b-4 border-red-600 text-red-600 px-4 py-1"
+                              onClick={startPomo}
+                            >
+                              Start
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                    {state.manualModeOn ? (
+                      <>
+                        <div className="h-full flex-1">
+                          <textarea
+                            className="px-5 w-full h-full py-2 text-lg bg-gray-200"
+                            placeholder="What have you just done?"
+                            value={state.newEntry}
+                            onChange={changeEntry}
+                          ></textarea>
+                        </div>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </div>
-                </CardTitle>
-
-                <div className="bg-gray-100 border-b border-gray-400 h-24 flex flex-col justify-center">
-                  {state.manualModeOn ? (
-                    <>
-                      <div className="h-full">
-                        <textarea
-                          className="w-full h-full px-5 py-2 text-lg bg-transparent"
-                          placeholder="What have you just done?"
-                          value={state.newEntry}
-                          onChange={changeEntry}
-                        ></textarea>
-                      </div>
-                    </>
-                  ) : state.running ? (
-                    <>
-                      <div className="px-5 font-bold text-6xl leading-tight text-gray-800 text-center">
-                        <span className="text-red-600">{minuteDisplay()}</span>
-                        <span className="text-red-400">:{secondDisplay()}</span>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="px-5 font-bold text-6xl leading-tight text-center">
-                        <span className="text-gray-400">25</span>
-                        <span className="text-gray-400">:00</span>
-                      </div>
-                    </>
-                  )}
-                </div>
-
-                <div className="flex justify-between px-5 py-3">
-                  {state.manualModeOn ? (
-                    <>
-                      <Button onClick={saveEntry}>
-                        <div className="text-lg font-bold text-red-600">
-                          Save
-                        </div>
-                      </Button>
-                      <button
-                        className="text-red-600"
-                        onClick={toggleManualMode}
-                      >
-                        Cancel
-                      </button>
-                    </>
-                  ) : state.running ? (
-                    <>
-                      <Button onClick={stopPomo}>
-                        <div className="text-lg font-bold text-red-600">
-                          Stop
-                        </div>
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button onClick={startPomo}>
-                        <div className="text-lg font-bold text-red-600">
-                          Start
-                        </div>
-                      </Button>
-                      {!state.manualModeOn ? (
-                        <button
-                          className="text-red-600"
-                          onClick={toggleManualMode}
-                        >
-                          {`Manual`}
-                        </button>
-                      ) : (
-                        <></>
-                      )}
-                    </>
-                  )}
-                </div>
-              </CardSimple>
-            </div>
-            <div className="mt-6">
-              <CardSimple className="mt-6">
-                <CardTitle>
-                  <div className="font-bold text-md">Today</div>
-                </CardTitle>
-
-                <div className="bg-gray-100 rounded-b-md">
-                  <ListTags itemsByFirstTag={itemsByFirstTag(state.items)} />
-                </div>
-              </CardSimple>
-            </div>
-          </div>
-          <div className="w-full mt-6 lg:mt-0 lg:w-2/3 lg:pl-6">
-            <CardSimple>
-              <input
-                className="bg-white w-full px-5 py-3 border-b border-gray-400 rounded-t-md"
-                placeholder="Search"
-              />
-              <div className="bg-gray-100 rounded-b-md">
-                <ListItems items={state.items} />
+                </CardSimple>
               </div>
-            </CardSimple>
+              <div className="mt-5 px-1">
+                <div className="px-6 mb-2 font-bold text-sm uppercase tracking-wide text-gray-500">
+                  Today
+                </div>
+
+                <CardSimple>
+                  <ListTags itemsByFirstTag={itemsByFirstTag(state.items)} />
+                </CardSimple>
+              </div>
+            </div>
+            <div className="w-full mt-5 lg:mt-0 lg:w-2/3 lg:pl-6 px-1">
+              <CardSimple>
+                <input
+                  className="bg-white w-full px-5 py-3 border-b border-gray-400 rounded-t-md"
+                  placeholder="Search"
+                />
+                <div className="bg-gray-100 rounded-b-md">
+                  <ListItems items={state.items} />
+                </div>
+              </CardSimple>
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
@@ -290,7 +319,7 @@ export default PomoTagPage;
 
 function CardSimple({ children }) {
   return (
-    <div className="bg-white rounded-md shadow-sm border border-gray-400">
+    <div className="bg-white rounded-lg border border-b-2 border-gray-400">
       {children}
     </div>
   );
@@ -318,11 +347,15 @@ function Button({ type, children, onClick }) {
 function ListItems({ items }) {
   return items.map((item, index) => (
     <div key={index} className="border-b border-gray-300 pr-6 ml-6">
-      <div className="text-sm lg:text-base border-t-2 border-white flex py-3">
+      <div className="text-sm lg:text-base border-t-2 border-white flex pt-2">
         <span className="w-4/6 lg:w-5/6">{item.name}</span>
         <span className="w-2/6 lg:w-1/6 text-gray-500 text-right">
-          {item.datetimeStarted}
+          {Math.floor(item.accumulatedSeconds / 60)}:
+          {doubleDigit(item.accumulatedSeconds % 60)}
         </span>
+      </div>
+      <div className="text-sm lg:text-base text-gray-600 pb-2">
+        {format(item.datetimeCreated, "d MMM Y H:ii")}
       </div>
     </div>
   ));
@@ -333,13 +366,26 @@ function ListTags({ itemsByFirstTag }) {
     const tag = itemsByFirstTag[index];
     return (
       <div key={index} className="border-b border-gray-300 pr-6 ml-6">
-        <div className="text-sm lg:text-base border-t-2 border-white flex py-3">
+        <div className="border-t-2 border-white flex py-3">
           <span className="w-4/6">#{tag.tag}</span>
           <span className="w-2/6 text-gray-500 text-right">
-            {(tag.items.length * 30) / 60} h
+            {`x ${tag.items.length}`}
           </span>
         </div>
       </div>
     );
   });
+}
+
+function doubleDigit(number) {
+  return number < 10 ? `0${number}` : number;
+}
+
+function accumMinutes(remainingSeconds) {
+  const minutes = Math.floor((INITIAL_POMO_SECONDS - remainingSeconds) / 60);
+  if (minutes < 5) return 5;
+  if (minutes < 10) return 10;
+  if (minutes < 20) return 20;
+  if (minutes < 25) return 25;
+  return minutes;
 }
