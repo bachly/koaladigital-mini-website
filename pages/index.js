@@ -4,7 +4,7 @@ const sampleworks = [
   {
     title: `ResMed AirView`,
     description: `ResMed is an ASX-listed, NASDAG-listed health company who
-        provides sleep-boosting products • We helped ResMed to develop a new interface for AirView, their
+        provides sleep-boosting products • I helped ResMed to develop a new interface for AirView, their
         online Clinician Portal • The refreshed interface has helped
         worldwide doctors to work more efficiently with their patient medical results`,
     imageSrc: "/images/KoalaDigital_SampleWork_ResMedAirView.jpg",
@@ -13,7 +13,7 @@ const sampleworks = [
   {
     title: `Cochlear Clinician Portal`,
     description: `Cochlear is an ASX-listed, NASDAG-listed Australia company who
-      provide hearing solutions • We helped Cochlear to extend their
+      provide hearing solutions • I helped Cochlear to extend their
       Remote Check Clinician Portal • The extended solution has helped clinicians
       worldwide to provide better remote support to their patients`,
     imageSrc: "/images/KoalaDigital_SampleWork_CochlearPortal.jpg",
@@ -22,7 +22,7 @@ const sampleworks = [
   {
     title: `CommSec Trading Platform`,
     description: `CommSec is an ASX-listed online trading platform owned by the
-      Commonwealth Bank of Australia • We helped CommSec to develop
+      Commonwealth Bank of Australia • I helped CommSec to develop
       their new digital Onboarding Flow for new customers • The new
       experience improved conversion rate by 40%`,
     imageSrc: "/images/KoalaDigital_SampleWork_CommSec.jpg",
@@ -31,7 +31,7 @@ const sampleworks = [
   {
     title: `Pepper Money Website and Portal`,
     description: `Pepper Money is an Australia non-bank lender with a
-      down-to-earth approach • We helped Pepper to refresh their
+      down-to-earth approach • I helped Pepper to refresh their
       website and online customer portal • The new digital experience
       has helped Pepper gain more customers and provide better support
       to existing customers`,
@@ -41,7 +41,7 @@ const sampleworks = [
   {
     title: `Rowmark Australia Wholesale Store`,
     description: `Rowmark Australia is the Australia official distributor of the
-      world-renowned Rowmark laser engraving materials • We helped
+      world-renowned Rowmark laser engraving materials • I helped
       Rowmark Australia to develop their ecommerce store and landing
       pages to increase online sales and engage new markets`,
     imageSrc: "/images/KoalaDigital_SampleWork_RowmarkAustralia.jpg",
@@ -49,7 +49,7 @@ const sampleworks = [
   },
   {
     title: `Education Providers`,
-    description: `We helped UTS, UNSW and ANMFSA to
+    description: `I helped UTS, UNSW and ANMFSA to
       maintain and improve their Online Learning and Survey system. A well-integrated and well-maintained web application 
       plays an important role in helping both teachers and students achieve the best outcomes`,
     imageSrc: "/images/KoalaDigital_SampleWork_EducationProviders.jpg",
@@ -57,21 +57,21 @@ const sampleworks = [
   },
   {
     title: `Online Retailers`,
-    description: `We helped Bing Lee, Paddy Pallin, Costume Box and Princess Polly to
+    description: `I helped Bing Lee, Paddy Pallin, Costume Box and Princess Polly to
       maintain and improve their Online Stores. Professional Webmaster Service is crucial for these retailers to increase online sales.`,
     imageSrc: "/images/KoalaDigital_SampleWork_OnlineRetailers.jpg",
     imageAlt: "Australian Online Retailers",
   },
   {
     title: `Web Development Service`,
-    description: `We can help you develop new websites, web apps or extensions for your existing websites. 
+    description: `I can help you develop new websites, web apps or extensions for your existing websites. 
     Our software are built on robust technology stack and architecture with user-friendly interfaces.`,
     imageSrc: "",
     imageAlt: "",
   },
   {
     title: `Webmaster Service`,
-    description: `We can help you maintain your existing websites or online stores with a fixed monthly fee.
+    description: `I can help you maintain your existing websites or online stores with a fixed monthly fee.
     No need for an in-house web developer, yet always have someone available to do any work on your website 24/7.`,
     imageSrc: "",
     imageAlt: "",
@@ -86,10 +86,10 @@ function HomePage() {
             KoalaDigital / Custom Web Solutions in Ryde, Sydney Australia
           </h1>
           <p className="mt-6 text-2xl lg:text-4xl leading-snug">
-            We work with business of any size to build and extend their custom
-            web applications, Shopify stores and online portals • Our work does
-            one thing well —{" "}
-            <span className="font-bold">add values to your customers</span>
+            I am Bach • I work with business of any size to build new or extend
+            their Web applications and Shopify stores • With a fixed monthly
+            fee, you can have me as your Webmaster who will maintain and enhance
+            your web application on demand.
           </p>
         </div>
       </header>
@@ -114,7 +114,7 @@ function HomePage() {
             web interface, or simply need a webmaster who can look after your
             digital presence,{" "}
             <a className="text-gray-700" href="mailto:bach@koaladigital.com.au">
-              email us
+              email me
             </a>
             . First consultation is free.{` `}
           </h2>

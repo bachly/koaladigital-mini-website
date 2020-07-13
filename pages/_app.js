@@ -5,25 +5,20 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
 
+    const title = `KoalaDigital 🐨 | Custom Web, Shopify and Webmaster Service in Ryde
+    Sydney, Australia`;
+
     return (
       <>
         <Head>
           <meta charSet="utf-8" />
-          <title>
-            KoalaDigital | Web, Shopify and Designer service in Ryde Sydney 🐨
-          </title>
+          <title>{title}</title>
           <meta
-            content="Create new or improve existing websites, Shopify stores or online portals • Custom digital design, banners, themes, flyers and videos • Webmaster service available"
+            content="Professional Service to build new or extend your Web Applications and Shopify stores • First consultation free • Affordable Webmaster Service also available"
             name="description"
           />
-          <meta
-            content="KoalaDigital | Web, Shopify and Designer service in Ryde Sydney 🐨"
-            property="og:title"
-          />
-          <meta
-            content="KoalaDigital | Web, Shopify and Designer service in Ryde Sydney 🐨"
-            property="twitter:title"
-          />
+          <meta content={title} property="og:title" />
+          <meta content={title} property="twitter:title" />
           <meta content="width=device-width, initial-scale=1" name="viewport" />
           <link href="/css/tailwind.css" rel="stylesheet" type="text/css" />
         </Head>
