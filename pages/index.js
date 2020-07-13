@@ -50,16 +50,31 @@ const sampleworks = [
   {
     title: `Education Providers`,
     description: `We helped UTS, UNSW and ANMFSA to
-      maintain and improve their Online Learning and Survey system`,
+      maintain and improve their Online Learning and Survey system. A well-integrated and well-maintained web application 
+      plays an important role in helping both teachers and students achieve the best outcomes`,
     imageSrc: "/images/KoalaDigital_SampleWork_EducationProviders.jpg",
     imageAlt: "Australian Education Providers",
   },
   {
     title: `Online Retailers`,
     description: `We helped Bing Lee, Paddy Pallin, Costume Box and Princess Polly to
-      maintain and improve their Online Stores`,
+      maintain and improve their Online Stores. Professional Webmaster Service is crucial for these retailers to increase online sales.`,
     imageSrc: "/images/KoalaDigital_SampleWork_OnlineRetailers.jpg",
     imageAlt: "Australian Online Retailers",
+  },
+  {
+    title: `Web Development Service`,
+    description: `We can help you develop new websites, web apps or extensions for your existing websites. 
+    Our software are built on robust technology stack and architecture with user-friendly interfaces.`,
+    imageSrc: "",
+    imageAlt: "",
+  },
+  {
+    title: `Webmaster Service`,
+    description: `We can help you maintain your existing websites or online stores with a fixed monthly fee.
+    No need for an in-house web developer, yet always have someone available to do any work on your website 24/7.`,
+    imageSrc: "",
+    imageAlt: "",
   },
 ];
 function HomePage() {
