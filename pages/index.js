@@ -48,13 +48,18 @@ const sampleworks = [
     imageAlt: "Rowmark Australia Wholesale Store",
   },
   {
-    title: `Online retailers and Education`,
-    description: `We have worked with iconic Australia retailers such as Paddy
-      Pallin, Bing Lee, Constume Box, Princess Polly improve their
-      existing online store • We also helped UTS, UNSW and ANMFSA to
-      improve their Online Learning and Survey system`,
-    imageSrc: "/images/KoalaDigital_SampleWork_Others.jpg",
-    imageAlt: "Other iconic Australian brands",
+    title: `Education Providers`,
+    description: `We helped UTS, UNSW and ANMFSA to
+      maintain and improve their Online Learning and Survey system`,
+    imageSrc: "/images/KoalaDigital_SampleWork_EducationProviders.jpg",
+    imageAlt: "Australian Education Providers",
+  },
+  {
+    title: `Online Retailers`,
+    description: `We helped Bing Lee, Paddy Pallin, Costume Box and Princess Polly to
+      maintain and improve their Online Stores`,
+    imageSrc: "/images/KoalaDigital_SampleWork_OnlineRetailers.jpg",
+    imageAlt: "Australian Online Retailers",
   },
 ];
 function HomePage() {
