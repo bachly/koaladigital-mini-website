@@ -13,6 +13,7 @@ module.exports = {
     const paths = {
       "/": { page: "/" },
       "/pomotag": { page: "/pomotag" },
+      "/freightZoneCalculator": { page: "/freightZoneCalculator" },
     };
 
     // get all .md files in the lists dir
