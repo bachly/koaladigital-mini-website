@@ -66,10 +66,10 @@ export default function FreightZoneCalculator() {
         </h1>
       </header>
 
-      <div className="mt-12">
-        <div className="px-6 lg:px-12">
+      <main className="mt-12">
+        <div id="calculator" className="px-6 lg:px-12 max-w-lg">
           <div className="flex flex-column">
-            <div className="w-full px-4 py-4 rounded bg-gray-800">
+            <div className="w-full px-4 py-4 rounded-lg bg-gray-800">
               <div className="flex flex-row flex-wrap items-center">
                 <div className="mr-2">
                   <div className="uppercase text-xs text-gray-600 tracking-wider mb-2 mr-4">
@@ -104,19 +104,22 @@ export default function FreightZoneCalculator() {
           </div>
         </div>
 
-        <div className="">
-          <div className="mb-8">
-            <select className="h-12 bg-gray-800 text-gray-300 rounded-lg px-4" onChange={selectCarrierState()}>
-              <option value={null}>All states</option>
-              {Object.keys(state.zonesByState).map((carrierState) => (
-                <option>{carrierState}</option>
-              ))}
-            </select>
-          </div>
+        <div id="filters" className="mt-12 px-6 lg:px-12">
+          <select
+            className="h-12 bg-gray-800 text-gray-300 rounded-lg px-4"
+            onChange={selectCarrierState()}
+          >
+            <option value={null}>All states</option>
+            {Object.keys(state.zonesByState).map((carrierState) => (
+              <option>{carrierState}</option>
+            ))}
+          </select>
+        </div>
 
+        <div id="zones" className="mt-12 px-6 lg:px-12">
           {carrierStatesAfterFilter().map((carrierState) => {
             return (
-              <div key={carrierState}>
+              <div className="carrier-state" key={carrierState}>
                 <h2 className="text-md inline-block text-gray-600 tracking-wider">
                   {carrierState} (
                   {Object.keys(state.zonesByState[carrierState]).length} zones)
@@ -188,7 +191,7 @@ export default function FreightZoneCalculator() {
             );
           })}
         </div>
-      </div>
+      </main>
     </div>
   );
 }
