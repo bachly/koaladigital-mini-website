@@ -135,7 +135,10 @@ export default function FreightZoneCalculator() {
 
                           <div className="bg-gray-800 px-4 py-4 flex-1">
                             <div className="flex flex-row flex-wrap">
-                              <div className="w-full lg:w-1/4">
+                              <div
+                                id="freight-costs"
+                                className="w-full lg:w-1/4 mb-2"
+                              >
                                 <div className="mb-2 w-full">
                                   <div className="uppercase tracking-wide text-gray-600 text-xs ">
                                     Basic$
@@ -149,7 +152,7 @@ export default function FreightZoneCalculator() {
                                     Rate$/kg
                                   </div>
                                   <div className="text-gray-300 text-xl">
-                                    {freightByZone[carrierZone]["Rate"]}
+                                    {freightByZone[carrierZone]["Rate"].toFixed(2)}
                                   </div>
                                 </div>
                                 <div className="w-full">
@@ -162,9 +165,15 @@ export default function FreightZoneCalculator() {
                                 </div>
                               </div>
 
-                              <div className="w-full lg:w-3/4">
+                              <div id="postcodes" className="w-full lg:w-3/4">
                                 <div className="uppercase tracking-wide text-gray-600 text-xs">
-                                  Postcodes
+                                  Postcodes (
+                                  {
+                                    state.zonesByState[carrierState][
+                                      carrierZone
+                                    ].length
+                                  }
+                                  )
                                 </div>
                                 <div className="text-gray-400">
                                   {state.zonesByState[carrierState][
