@@ -1,5 +1,5 @@
 
-export const freightByZone = {
+export const FREIGHT_BY_ZONE = {
   "SYDN": {
      "Basic": 6.6,
      "Rate": 0.22,
@@ -302,7 +302,7 @@ export const freightByZone = {
   }
 }
 
-export const postcodes = [
+export const POST_CODES = [
   {
     "Postcode": 2600,
     "Postcodename": "BARTON",

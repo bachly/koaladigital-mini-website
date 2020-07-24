@@ -1,6 +1,6 @@
 import {
-  postcodes,
-  freightByZone,
+  POST_CODES,
+  FREIGHT_BY_ZONE,
 } from "../components/freightZoneCalculatorData";
 
 export default function FreightZoneCalculator() {
@@ -10,7 +10,7 @@ export default function FreightZoneCalculator() {
   });
 
   React.useEffect(() => {
-    postcodes.map((postcode) => {
+    POST_CODES.map((postcode) => {
       const carrierState = postcode.State;
       const carrierZone = postcode.CarrierZone;
 
@@ -90,7 +90,7 @@ export default function FreightZoneCalculator() {
                   >
                     <option value={"All"}>All states</option>
                     {Object.keys(state.zonesByState).map((carrierState) => (
-                      <option>{carrierState}</option>
+                      <option key={carrierState}>{carrierState}</option>
                     ))}
                   </select>
                 </div>
@@ -123,7 +123,11 @@ export default function FreightZoneCalculator() {
                                           Basic$
                                         </div>
                                         <div className="text-gray-900 text-xl">
-                                          {freightByZone[carrierZone]["Basic"]}
+                                          {
+                                            FREIGHT_BY_ZONE[carrierZone][
+                                              "Basic"
+                                            ]
+                                          }
                                         </div>
                                       </div>
                                       <div className="mb-2 w-full lg:w-1/3">
@@ -131,7 +135,7 @@ export default function FreightZoneCalculator() {
                                           Rate$/kg
                                         </div>
                                         <div className="text-gray-900 text-xl">
-                                          {freightByZone[carrierZone][
+                                          {FREIGHT_BY_ZONE[carrierZone][
                                             "Rate"
                                           ].toFixed(2)}
                                         </div>
@@ -142,7 +146,7 @@ export default function FreightZoneCalculator() {
                                         </div>
                                         <div className="text-gray-900 text-xl">
                                           {
-                                            freightByZone[carrierZone][
+                                            FREIGHT_BY_ZONE[carrierZone][
                                               "Minimum"
                                             ]
                                           }
@@ -221,7 +225,7 @@ function reducer(state, { type, payload }) {
   }
 }
 
-function Calculator({ zonesByState }) {
+function Calculator() {
   const [state, setState] = React.useState({
     postcode: null,
     weight: null,
@@ -233,8 +237,32 @@ function Calculator({ zonesByState }) {
   function change(fieldname) {
     return (event) => {
       event.preventDefault();
+      setState({
+        ...state,
+        [fieldname]: event.target.value,
+      });
     };
   }
+
+  const freight = () => {
+    if (state.postcode && state.weight) {
+      const found = POST_CODES.filter(
+        (item) => item["Postcode"].toString() === state.postcode
+      )[0];
+      const zone = found.CarrierZone;
+      const { Basic, Rate, Minimum } = FREIGHT_BY_ZONE[zone];
+      const calculatedFreight = Basic + Rate * state.weight;
+      return calculatedFreight < Minimum ? Minimum : calculatedFreight;
+    }
+    return 0;
+  };
+  const fuelLevyCost = () => freight() * (state.fuelLevyPercentage / 100);
+  const markupCost = () =>
+    (freight() + fuelLevyCost()) * (state.markupPercentage / 100);
+  const taxCost = () =>
+    (freight() + fuelLevyCost() + markupCost()) * (state.taxPercentage / 100);
+  const totalFreight = () =>
+    freight() + fuelLevyCost() + markupCost() + taxCost();
 
   return (
     <div
@@ -242,8 +270,8 @@ function Calculator({ zonesByState }) {
       className="w-full px-6 py-5 bg-white border rounded-lg border-gray-200 shadow-md"
     >
       <p className="text-md text-gray-700 mb-6">
-        Enter the Postcode and Weight, the freight will be automatically
-        calculated. Adjust add-ons if neccessary
+        Enter the Postcode & Weight, the freight will be calculated. Adjust
+        add-ons if neccessary.
       </p>
 
       <div className="flex flex-row justify-between items-center">
@@ -258,7 +286,9 @@ function Calculator({ zonesByState }) {
       <div className="my-6"></div>
 
       <div className="">
-        <div className="text-gray-700 text-sm font-bold uppercase">Add-ons</div>
+        <div className="text-gray-700 text-sm font-bold uppercase mb-2">
+          Add-ons
+        </div>
       </div>
 
       {state.showAddons ? (
@@ -295,12 +325,38 @@ function Calculator({ zonesByState }) {
         <></>
       )}
 
-      <div className="">
-        <div className="flex flex-row items-center justify-between">
-          <div className="text-gray-700 text-sm font-bold uppercase">
-            Total freight
+      <div className="prices">
+        <div className="flex flex-row items-center justify-between mb-1">
+          <div className="text-gray-700 text-sm">Freight</div>
+          <div className="text-md text-gray-500 ">${freight().toFixed(2)}</div>
+        </div>
+        <div className="flex flex-row items-center justify-between mb-1">
+          <div className="text-gray-700 text-sm">
+            Fuel levy ({state.fuelLevyPercentage}%)
           </div>
-          <div className="text-3xl text-blue-700 font-bold">$2.3</div>
+          <div className="text-md text-gray-500">
+            ${fuelLevyCost().toFixed(2)}
+          </div>
+        </div>
+        <div className="flex flex-row items-center justify-between mb-1">
+          <div className="text-gray-700 text-sm">
+            Markup ({state.markupPercentage}%)
+          </div>
+          <div className="text-md text-gray-500">
+            ${markupCost().toFixed(2)}
+          </div>
+        </div>
+        <div className="flex flex-row items-center justify-between mb-1">
+          <div className="text-gray-700 text-sm">
+            Tax ({state.taxPercentage}%)
+          </div>
+          <div className="text-md text-gray-500">${taxCost().toFixed(2)}</div>
+        </div>
+        <div className="flex flex-row items-center justify-between">
+          <div className="text-gray-700 text-sm font-bold uppercase">Total</div>
+          <div className="text-xl text-blue-700 font-bold">
+            ${totalFreight().toFixed(2)}
+          </div>
         </div>
       </div>
     </div>
