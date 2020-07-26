@@ -2,11 +2,19 @@ const glob = require("glob");
 
 module.exports = {
   webpack: (config) => {
-    config.module.rules.push({
-      test: /\.md$/,
-      loader: "frontmatter-markdown-loader",
-      options: { mode: ["body"] },
-    });
+    config.module.rules.push(
+      {
+        test: /\.md$/,
+        loader: "frontmatter-markdown-loader",
+        options: { mode: ["body"] },
+      },
+      {
+        test: /\.(mp3|aif)$/,
+        use: {
+          loader: "file-loader",
+        },
+      }
+    );
     return config;
   },
   exportPathMap: async function () {
@@ -14,6 +22,7 @@ module.exports = {
       "/": { page: "/" },
       "/pomotag": { page: "/pomotag" },
       "/freightZoneCalculator": { page: "/freightZoneCalculator" },
+      "/triviaSlides": { page: "/triviaSlides" },
     };
 
     // get all .md files in the lists dir
