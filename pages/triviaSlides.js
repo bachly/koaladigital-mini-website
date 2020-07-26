@@ -52,7 +52,7 @@ function reducer(state, { type, payload }) {
       return {
         ...state,
         questionsBank: _.first(
-          questionsBank.filter((question) => question.Points === 1),
+          _.shuffle(questionsBank.filter((question) => question.Points === 1)),
           20
         ),
         currentQuestionIndex: 0,
@@ -62,7 +62,7 @@ function reducer(state, { type, payload }) {
       return {
         ...state,
         questionsBank: _.first(
-          questionsBank.filter((question) => question.Points === 5),
+          _.shuffle(questionsBank.filter((question) => question.Points === 5)),
           7
         ),
         currentQuestionIndex: 0,
