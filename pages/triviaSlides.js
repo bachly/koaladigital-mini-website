@@ -42,13 +42,11 @@ function reducer(state, { type, payload }) {
     case "right":
       return {
         ...state,
-        currentQuestionIndex: nextIndex,
         totalPoints: state.totalPoints + 1,
       };
     case "wrong":
       return {
         ...state,
-        currentQuestionIndex: nextIndex,
       };
     case "round1":
       return {
@@ -85,7 +83,7 @@ export default function triviaSlides() {
 
   function click(action) {
     return (event) => {
-      event.preventDefault();
+      event && event.preventDefault();
 
       if (action === "right") {
         console.log("play right answer sound", rightAnswerSound);
@@ -98,6 +96,17 @@ export default function triviaSlides() {
       dispatch({
         type: action,
       });
+    };
+  }
+
+  function choose(option) {
+    return (event) => {
+      event && event.preventDefault();
+      if (option === state.questionsBank[state.currentQuestionIndex].Answer) {
+        click("right")();
+      } else {
+        click("wrong")();
+      }
     };
   }
 
@@ -138,7 +147,10 @@ export default function triviaSlides() {
         <div id="questionPage">
           <header className="flex flex-row justify-between items-center bg-blue-900 text-white px-3">
             <div className="text-3xl">
-              {state.currentQuestionIndex + 1}/{state.questionsBank.length}
+              {state.questionsBank[state.currentQuestionIndex]
+                ? state.questionsBank[state.currentQuestionIndex].Id
+                : ""}
+              . ({state.currentQuestionIndex + 1}/{state.questionsBank.length})
             </div>
             <div className="text-5xl font-bold">
               {state.totalPoints} / {state.questionsBank.length} pts
@@ -148,7 +160,7 @@ export default function triviaSlides() {
             </div>
           </header>
 
-          <main className="py-4 px-12">
+          <main className="py-4 px-12 bg-gray-100 min-h-screen">
             <h1 className="font-bold text-6xl leading-tight">
               {state.questionsBank[state.currentQuestionIndex]
                 ? state.questionsBank[state.currentQuestionIndex].Name
@@ -182,31 +194,59 @@ export default function triviaSlides() {
             </ul>
           </main>
 
-          <footer className="flex flex-row items-center justify-between bg-gray-500 px-4 py-3 w-full fixed bottom-0">
+          <footer className="flex flex-row items-center justify-between bg-gray-500 px-3 py-5 w-full fixed bottom-0">
+            <div className="mr-10">
+              <button
+                className="text-4xl border-4 border-gray-900 w-32 text-center font-bold hover:bg-gray-800 hover:text-white mr-1"
+                onClick={click("back")}
+              >
+                Back
+              </button>
+              <button
+                className="text-4xl border-4 border-green-800 text-green-800 hover:bg-green-700 hover:text-white w-32 text-center font-bold mr-1"
+                onClick={click("right")}
+              >
+                Right
+              </button>
+              <button
+                className="text-4xl border-4 border-red-800 text-red-800 hover:bg-red-700 hover:text-white w-32 text-center font-bold"
+                onClick={click("wrong")}
+              >
+                Wrong
+              </button>
+            </div>
             <button
-              className="text-4xl border-2 border-gray-900 w-48 text-center font-bold"
-              onClick={click("back")}
+              className="text-4xl border-4 border-blue-700 text-blue-700 flex-1 text-center font-bold hover:bg-blue-700 active-blue-700 hover:text-white"
+              onClick={choose("A")}
             >
-              Back
+              A
             </button>
             <button
-              className="text-4xl border-2 border-green-800 bg-green-700 text-white w-48 text-center font-bold"
-              onClick={click("right")}
+              className="text-4xl border-4 border-blue-700 text-blue-700 flex-1 text-center font-bold hover:bg-blue-700 active-blue-700 hover:text-white"
+              onClick={choose("B")}
             >
-              Right
+              B
             </button>
             <button
-              className="text-4xl border-2 border-red-800 bg-red-700 text-white w-48 text-center font-bold"
-              onClick={click("wrong")}
+              className="text-4xl border-4 border-blue-700 text-blue-700 flex-1 text-center font-bold hover:bg-blue-700 active-blue-700 hover:text-white"
+              onClick={choose("C")}
             >
-              Wrong
+              C
             </button>
             <button
-              className="text-4xl border-2 border-gray-900 w-48 text-center font-bold"
-              onClick={click("next")}
+              className="text-4xl border-4 border-blue-700 text-blue-700 flex-1 text-center font-bold hover:bg-blue-700 active-blue-700 hover:text-white"
+              onClick={choose("D")}
             >
-              Next
+              D
             </button>
+            <div className="ml-5">
+              <button
+                className="text-4xl border-4 border-gray-900 w-32 text-center font-bold hover:bg-gray-800 hover:text-white mr-3"
+                onClick={click("next")}
+              >
+                Next
+              </button>
+            </div>
           </footer>
         </div>
       )}
