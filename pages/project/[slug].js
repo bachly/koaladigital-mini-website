@@ -17,14 +17,14 @@ export default function ProjectPage({ project }) {
 
     return (
         <Layout pageName='ProjectPage' title={title} description={description}>
-            <header className="py-4 px-4 border-b border-gray-200">
+            <header className="py-4 px-8 border-b border-gray-200">
                 <Link href="/">
                     <a className="flex items-center hover:opacity-50 transition duration-200">
                         <span className="w-6 h-6 mr-2"><IconChevronLeft /></span> Home
                     </a>
                 </Link>
             </header>
-            <article className="my-8 max-w-2xl px-4 mx-auto">
+            <article className="my-8 px-8 max-w-2xl mx-auto">
                 <div>
                     <img className="block" src={`${basePath}/${images[0].src}`} />
                 </div>
