@@ -4,82 +4,105 @@ DEMO: https://bachly.github.io/koaladigital-mini-website
 
 ![alt text](./__README/screen.png)
 
-This is self-contained 2-page Website for Blog, Portfolio, Resume, CV, Profile, Project Showcase.
+This is self-contained 2-page Website template for Blog, Portfolio, Resume, CV, Profile, Project Showcase, Developer's Website.
 
-After the site is exported into a static folder, you can host it for **FREE** on GitHub Pages, Netlify, or SurgeSH.
+Features:
 
-This template uses:
-
-- NextJS 9.5
+- [NextJS 9.5](https://nextjs.org/docs/basic-features/pages)
 - ReactJS
-- TailwindCSS
+- [TailwindCSS](https://tailwindcss.com/docs)
 - **No CMS** to store content. Only local Markdown files.
+- Host it for **FREE** on GitHub Pages, Netlify, or Surge.SH
 
-## How to use this template?
+## How to use?
 
-Assumed you have cloned this project, do the steps below to make it yours:
+### Step 0 - Install
 
-Run `yarn dev` before developing.
+```shell
+# Clone the GIT project to your local environment
 
-### Step 1 - Update content
+$ yarn       # install node_modules
+$ yarn dev   # start development on http://localhost:3000/
+```
 
-- Update the `.md` files in `content/projects` with attributes and content
-- Change the `.md` file names. The file name will become the URL e.g. `project-1.md` => `/project/project-1`
+### Step 1 - Content
 
-More:
+- Change the `.md` files in `content/projects`
+- Change the `.md` file names. The file name becomes the URL e.g. `project-1.md` => `/project/project-1`
 
-- Use Free Doodles from Open Doodles https://www.opendoodles.com/
-- Use Unplash API for random photos: https://source.unsplash.com/1500x1000/?nature,water
+### Step 2 - Styles
 
-### Step 2 - Update the styles
+- Generate your own favicons from [Favicon.io](https://favicon.io/) and put them in `public/images/favicon_io` directory
+- Change to your own logo in `public/images/logo.png`
 
-- Generate your Favicons from Favicon.io https://favicon.io/ and put them in `public/images/favicon_io` directory
-- Update the `public/images/logo.png` to your own logo
-- (Optionally) Use Free SVG icons from Linear Icons https://linearicons.com/free
-- (Optionally) Update `index.js`, the Homepage and `[slug].js`, the Project page, to your liking
-- (Optionally) Use `TailwindCSS` utility CSS classes to style these 2 pages to your liking
-- (Optionally) To extend `TailwindCSS`, update the `tailwind.config.js`. Then run `yarn css` to create the new `/public/css/tailwind.css` file.
-- (Optionally) To add Custom CSS on top of `tailwind.css` file, update `/public/css/custom.css`
+_Optional ways to extend the templates_
 
-More:
+- _Update the Homepage in `index.js` and Project page in `project/[slug].js`_
+- _Use `TailwindCSS` utility CSS classes to style your pages_
+- _Extend `TailwindCSS` by [updating the tailwind.config.js](https://tailwindcss.com/docs/configuration)_
 
-- Add more Free SVG icons from https://linearicons.com/free
+```shell
+# After updating tailwind.config.js, run
 
-### Step 3 - (Optional) Add more Content Type
+$ yarn css   # this reates a new `/public/css/tailwind.css` file.
+```
 
-To add new Content Type such as `/blog/post-1`, do the following:
+- _Add your own Custom CSS: `/public/css/custom.css`.
+- _Use [NextJS CSS Support](https://nextjs.org/docs/basic-features/built-in-css-support)_
 
-- Copy `/content/projects` => `/content/blog`
-- Copy `/pages/projects/[slug].js` => `/pages/blog/[slug].js`
-- In the `/pages/blog/[slug].js`, update the source of `.md` files in `getInitialProps()` function. This is the Data Source
-  during development and if you use NextJS as a server.
-- In the `/pages/index.js` file, copy the function `importProjectsMd()` => `importBlogsMd()` and update the `.md` file source accordingly. This is where Blog data is pulled into the Homepage.
-- In the `next.config.js`, add more exported paths into the `exportPathMap()` function. This is where exported paths of static pages are defined.
+### Step 3 - (Optional) Add new page
 
-More:
+To add a new page suc
 
-- Use Frontmatter in the `.md` files to add more attributes
+### Step 3 - (Optional) Add new content type
+
+To add new content type such as `/blog/post-1`:
+
+1. Copy `/content/projects` => `/content/blog`
+1. Copy `/pages/projects/[slug].js` => `/pages/blog/[slug].js`
+1. In the `/pages/blog/[slug].js`, update the source of `.md` files in `getInitialProps()` function. This is the Data Source during development and if you use NextJS as a server.
+1. In the `/pages/index.js` file, copy the function `importProjectsMd()` => `importBlogsMd()` and update the `.md` file source accordingly. This is where Blog data is pulled into the Homepage.
+1. In the `next.config.js`, add more exported paths into the `exportPathMap()` function. This is where exported paths of static pages are defined.
 
 ### Step 4 - Export and deploy
 
 For GitHub Pages:
 
-- Run `yarn out-github` to produce the `docs` directory, the root directory of the static website. The paths of the pages in here match what is defined in `exportPathMap()`.
-- Commit the `out` directory to GitHub.
-- In GitHub Pages settings, point to the `/docs` directory.
+```shell
+# Ensure the paths are defined in exportPathMap()
 
-For Netlify or SurgeSH:
+$ yarn out-github     # this creates the `docs` directory
 
-- Run `yarn out` to produce the `out` directory.
-- Only deploy the `out` directory.
+$ git add docs        # commit the `docs` directory to Git
 
-**IMPORTANT: If your are hosting the website under a sub-route or sub-path e.g. http://youwebsite.com/sub-route, update the `basePath` in the `next.config.js` file**
-
+# In GitHub Pages settings, point to the `/docs` directory. This is the root of your static site.
 ```
-// next.config.js file
+
+For SurgeSH:
+
+```shell
+$ yarn global add surge   # install Surge.SH
+
+$ yarn out                # this creates the `out` directory
+$ cd out
+$ surge
+```
+
+For Netlify:
+
+```shell
+$ yarn global add netlify-cli    # Install Netlify CLI
+$ netlify login
+$ netlify deploy -p
+```
+
+**IMPORTANT: If your are hosting the website under a sub-route or sub-path e.g. youwebsite.com/sub-path, update the `basePath` in the `next.config.js` file**
+
+```javascript
+// In next.config.js file
 
 module.exports = {
-    basePath: '/sub-route',
+    basePath: '/sub-path', // <-- Change this to your own sub-path
     webpack: ...
     exportPathMap: ...
 }
@@ -87,10 +110,10 @@ module.exports = {
 
 ## Images and Icons
 
-- Generate your Favicons from Favicon.io https://favicon.io/ and put them in `public/images/favicon_io` directory
-- Use Free Doodles from Open Doodles https://www.opendoodles.com/
-- Use Unplash API for random photos: https://source.unsplash.com/1500x1000/?nature,water
-- Add more Free SVG icons from https://linearicons.com/free
+- Generate your own favicons from [Favicon.io](https://favicon.io/) and put them in `public/images/favicon_io` directory
+- Use free illustrations from [Open Doodles](https://www.opendoodles.com/)
+- Use [Unplash API](https://source.unsplash.com/1500x1000/?nature,water) for random photos
+- Use [Free Linear SVG icons](https://linearicons.com/free) and put them in the `components/Icons.js`
 
 ## Common CLI
 
