@@ -4,7 +4,7 @@ This is self-contained 2-page Website for Portfolio, Resume, CV, Profile, Projec
 
 This template uses:
 
-- NextJS
+- NextJS 9.5
 - ReactJS
 - TailwindCSS
 - **No CMS** to store content. Only local Markdown files.
