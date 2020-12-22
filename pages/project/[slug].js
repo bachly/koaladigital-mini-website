@@ -17,7 +17,7 @@ export default function ProjectPage({ project }) {
 
     return (
         <Layout pageName='ProjectPage' title={title} description={description}>
-            <header className="py-4 px-8 border-b border-gray-200">
+            <header className="py-4 px-2 border-b border-gray-200">
                 <Link href="/">
                     <a className="flex items-center hover:opacity-50 transition duration-200">
                         <span className="w-6 h-6 mr-2"><IconChevronLeft /></span> Home
