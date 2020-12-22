@@ -1,4 +1,4 @@
-# KoalaDigital Mini Wesbite - A simple 2-Page Website Template without CMS
+# KoalaDigital Mini Website - A simple 2-Page Website Template without CMS
 
 This is self-contained 2-page Website for Portfolio, Resume, CV, Profile, Project Showcase. After the site is exported into a static folder, you can host it for **FREE** on GitHub, Netlify, or SurgeSH.
 
