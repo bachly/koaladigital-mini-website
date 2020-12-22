@@ -2,7 +2,7 @@
 title: Man And Coffee Project
 date: 2020-05-21T00:51:26.112Z
 images:
-  - src: /images/coffee.gif
+  - src: images/coffee.gif
 description: >-
   Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristiqud posuere.
 ---

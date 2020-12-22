@@ -2,7 +2,7 @@
 title: Reading Project
 date: 2020-05-21T00:52:59.341Z
 images:
-  - src: /images/reading.png
+  - src: images/reading.png
 description: >-
   Duis cursus, mi quis viverra ornare, eros
   dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nib

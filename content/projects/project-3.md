@@ -2,7 +2,7 @@
 title: Flying Girl Project
 date: 2020-05-21T00:52:59.341Z
 images:
-  - src: /images/levitate.gif
+  - src: images/levitate.gif
 description: >-
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius
   enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros

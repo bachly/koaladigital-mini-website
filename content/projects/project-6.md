@@ -2,7 +2,7 @@
 title: Jumping project
 date: 2020-05-21T00:51:26.112Z
 images:
-  - src: /images/jumping.gif
+  - src: images/jumping.gif
 description: >-
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius
   enim in eros elementum tristique.
