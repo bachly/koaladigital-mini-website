@@ -57,10 +57,16 @@ More:
 
 ### Step 4 - Export and deploy
 
-- Run `yarn out` to produce the static directory `out`, the root directory of the static website. The paths of the pages in here match what is defined in `exportPathMap()`.
+To GitHub:
+
+- Run `yarn out-github` to produce the `docs` directory, the root directory of the static website. The paths of the pages in here match what is defined in `exportPathMap()`.
 - Commit the `out` directory to GitHub.
-- Use GitHub Pages to point to `out` directory.
-- For Netlify or SurgeSH, only deploy the `out` directory.
+- In GitHub Pages settings, point to the `/docs` directory.
+
+To Netlify or SurgeSH:
+
+- Run `yarn out` to produce the `out` directory.
+- Only deploy the `out` directory.
 
 ## Images and Icons
 

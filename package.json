@@ -16,7 +16,8 @@
     "css": "postcss tailwind.css -o public/css/tailwind.css",
     "build": "next build",
     "start": "next start",
-    "out": "npm run build && next export"
+    "out": "yarn build && next export",
+    "out-github": "yarn build && next export && mv out docs"
   },
   "dependencies": {
     "date-fns": "^2.14.0",
