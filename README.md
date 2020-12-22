@@ -1,6 +1,6 @@
 # KoalaDigital Mini Website - A simple 2-Page Website Template without CMS
 
-![alt text](./__README/KoalaDigital-2-page-Mini-Website-Template.jpg)
+![alt text](./__README/screen.gif)
 
 This is self-contained 2-page Website for Blog, Portfolio, Resume, CV, Profile, Project Showcase.
 
