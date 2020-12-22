@@ -1,6 +1,8 @@
 # KoalaDigital Mini Website - A simple 2-Page Website Template without CMS
 
-![alt text](./__README/screen.gif)
+DEMO: https://bachly.github.io/koaladigital-mini-website
+
+![alt text](./__README/screen.png)
 
 This is self-contained 2-page Website for Blog, Portfolio, Resume, CV, Profile, Project Showcase.
 
