@@ -5,7 +5,7 @@ import Layout from "../../components/Layout";
 import Link from "next/link";
 import { useRouter } from 'next/router';
 
-function ProjectPage({ project }) {
+export default function ProjectPage({ project }) {
     if (!project) return <div>PROJECT NOT FOUND</div>;
 
     const {
@@ -24,7 +24,7 @@ function ProjectPage({ project }) {
                     </a>
                 </Link>
             </header>
-            <article className="my-8 max-w-2xl mx-auto">
+            <article className="my-8 max-w-2xl px-4 mx-auto">
                 <div>
                     <img className="block" src={`${basePath}/${images[0].src}`} />
                 </div>
@@ -51,5 +51,3 @@ ProjectPage.getInitialProps = async ({ query }) => {
     const project = await import(`../../content/projects/${slug}.md`);
     return { project, attributes: project.attributes };
 };
-
-export default ProjectPage;

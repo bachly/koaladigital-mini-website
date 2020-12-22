@@ -2,6 +2,7 @@ import React from "react";
 import ReactMarkdown from "react-markdown/with-html";
 import Layout from "../components/Layout";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const PAGE_NAME = 'Homepage';
 const PAGE_TITLE = `KoalaDigital | 2-page Mini Website Template`;
@@ -64,13 +65,15 @@ HomePage.getInitialProps = async () => {
  */
 function ProjectSnippet({ attributes, slug }) {
   const { title, description, images } = attributes;
+  const { basePath } = useRouter();
+
   return (
     <Link href={`/project/${slug}`}>
       <a className="block hover:opacity-75 transition duration-200">
         <div className="relative">
           {images[0] ? (
             <img
-              src={images[0].src}
+              src={`${basePath}/${images[0].src}`}
               alt={title}
               className="object-cover rounded-sm border border-gray-300 shadow-md"
             />
