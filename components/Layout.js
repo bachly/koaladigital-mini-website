@@ -6,6 +6,7 @@ export default function Layout({ pageName, pageImage, title, description, childr
     return (
         <>
             <Head>
+                <base href="/koaladigital-mini-website" />
                 <title>{title}</title>
 
                 {/* Meta Tags */}
