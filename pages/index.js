@@ -1,6 +1,7 @@
 import React from "react";
 import ReactMarkdown from "react-markdown/with-html";
 import Layout from "../components/Layout";
+import Link from "next/link";
 
 const PAGE_NAME = 'Homepage';
 const PAGE_TITLE = `KoalaDigital | Developer Profile 1-page Website Template`;
@@ -64,25 +65,27 @@ HomePage.getInitialProps = async () => {
 function ProjectSnippet({ attributes, slug }) {
   const { title, description, images } = attributes;
   return (
-    <a href={`/project/${slug}`} className="block hover:opacity-75 transition duration-200">
-      <div className="relative">
-        {images[0] ? (
-          <img
-            src={images[0].src}
-            alt={title}
-            className="object-cover rounded-sm border border-gray-300 shadow-md"
-          />
-        ) : (
-            <div className="bg-gray-200 pt-2/3"></div>
-          )}
-      </div>
-      <h3 className="text-xl lg:text-2xl mt-4 mb-2 font-bold">{title}</h3>
-      <div className="text-lg lg:text-xl text-gray-900 leading-snug">
-        <ReactMarkdown
-          escapeHtml={false}
-          source={description}></ReactMarkdown>
-      </div>
-    </a>
+    <Link href={`/project/${slug}`}>
+      <a className="block hover:opacity-75 transition duration-200">
+        <div className="relative">
+          {images[0] ? (
+            <img
+              src={images[0].src}
+              alt={title}
+              className="object-cover rounded-sm border border-gray-300 shadow-md"
+            />
+          ) : (
+              <div className="bg-gray-200 pt-2/3"></div>
+            )}
+        </div>
+        <h3 className="text-xl lg:text-2xl mt-4 mb-2 font-bold">{title}</h3>
+        <div className="text-lg lg:text-xl text-gray-900 leading-snug">
+          <ReactMarkdown
+            escapeHtml={false}
+            source={description}></ReactMarkdown>
+        </div>
+      </a>
+    </Link>
   );
 }
 

@@ -2,6 +2,7 @@ import React from "react";
 import ReactMarkdown from "react-markdown/with-html";
 import { IconChevronLeft } from "../../components/Icons";
 import Layout from "../../components/Layout";
+import Link from "next/link";
 
 function ProjectPage({ project }) {
     if (!project) return <div>PROJECT NOT FOUND</div>;
@@ -13,10 +14,12 @@ function ProjectPage({ project }) {
 
     return (
         <Layout pageName='ProjectPage' title={title} description={description}>
-            <header class="py-4 px-4 border-b border-gray-200">
-                <a href="/" className="flex items-center hover:opacity-50 transition duration-200">
-                    <span className="w-6 h-6 mr-2"><IconChevronLeft /></span> Home
-                </a>
+            <header className="py-4 px-4 border-b border-gray-200">
+                <Link href="/">
+                    <a className="flex items-center hover:opacity-50 transition duration-200">
+                        <span className="w-6 h-6 mr-2"><IconChevronLeft /></span> Home
+                    </a>
+                </Link>
             </header>
             <article className="my-8 max-w-2xl mx-auto">
                 <div className="">

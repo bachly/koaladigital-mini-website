@@ -1,0 +1,14 @@
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[1],{
+
+/***/ "./content/projects/project-1.md":
+/*!***************************************!*\
+  !*** ./content/projects/project-1.md ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("\nmodule.exports = { \n      attributes: {\"title\":\"Man And Coffee Project\",\"date\":\"2020-05-21T00:51:26.112Z\",\"images\":[{\"src\":\"/images/coffee.gif\"}],\"description\":\"Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristiqud posuere.\"},\n    \n      body: \"## Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. \\n\\nNunc ut sem vitae risus tristique posuere.\\n\\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius\\nenim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros\\ndolor interdum nulla, ut commodo diam libero vitae erat. \\n\\n## Aenean faucibus nibh\\n\\net justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique\\nposuere.\\n\",\n     }//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9jb250ZW50L3Byb2plY3RzL3Byb2plY3QtMS5tZD81OTJiIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFDQSxrQjtBQUNBLG1CQUFtQiw4RUFBOEUsMkJBQTJCLDZIQUE2SDs7QUFFelA7QUFDQSIsImZpbGUiOiIuL2NvbnRlbnQvcHJvamVjdHMvcHJvamVjdC0xLm1kLmpzIiwic291cmNlc0NvbnRlbnQiOlsiXG5tb2R1bGUuZXhwb3J0cyA9IHsgXG4gICAgICBhdHRyaWJ1dGVzOiB7XCJ0aXRsZVwiOlwiTWFuIEFuZCBDb2ZmZWUgUHJvamVjdFwiLFwiZGF0ZVwiOlwiMjAyMC0wNS0yMVQwMDo1MToyNi4xMTJaXCIsXCJpbWFnZXNcIjpbe1wic3JjXCI6XCIvaW1hZ2VzL2NvZmZlZS5naWZcIn1dLFwiZGVzY3JpcHRpb25cIjpcIkFlbmVhbiBmYXVjaWJ1cyBuaWJoIGV0IGp1c3RvIGN1cnN1cyBpZCBydXRydW0gbG9yZW0gaW1wZXJkaWV0LiBOdW5jIHV0IHNlbSB2aXRhZSByaXN1cyB0cmlzdGlxdWQgcG9zdWVyZS5cIn0sXG4gICAgXG4gICAgICBib2R5OiBcIiMjIEFlbmVhbiBmYXVjaWJ1cyBuaWJoIGV0IGp1c3RvIGN1cnN1cyBpZCBydXRydW0gbG9yZW0gaW1wZXJkaWV0LiBcXG5cXG5OdW5jIHV0IHNlbSB2aXRhZSByaXN1cyB0cmlzdGlxdWUgcG9zdWVyZS5cXG5cXG5Mb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldCwgY29uc2VjdGV0dXIgYWRpcGlzY2luZyBlbGl0LiBTdXNwZW5kaXNzZSB2YXJpdXNcXG5lbmltIGluIGVyb3MgZWxlbWVudHVtIHRyaXN0aXF1ZS4gRHVpcyBjdXJzdXMsIG1pIHF1aXMgdml2ZXJyYSBvcm5hcmUsIGVyb3NcXG5kb2xvciBpbnRlcmR1bSBudWxsYSwgdXQgY29tbW9kbyBkaWFtIGxpYmVybyB2aXRhZSBlcmF0LiBcXG5cXG4jIyBBZW5lYW4gZmF1Y2lidXMgbmliaFxcblxcbmV0IGp1c3RvIGN1cnN1cyBpZCBydXRydW0gbG9yZW0gaW1wZXJkaWV0LiBOdW5jIHV0IHNlbSB2aXRhZSByaXN1cyB0cmlzdGlxdWVcXG5wb3N1ZXJlLlxcblwiLFxuICAgICB9Il0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./content/projects/project-1.md\n");
+
+/***/ })
+
+}]);
