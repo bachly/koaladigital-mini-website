@@ -10,11 +10,11 @@ export default function HomePage({ projects }) {
   return (
     <Layout pageName={PAGE_NAME} title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
       <div className="bg-white pt-12 text-gray-900">
-        <header className="mt-6 lg:mt-64 bg-white px-8 lg:px-12">
-          <h1 className="text-3xl lg:text-5xl font-black leading-tight">
+        <header className="mt-6 lg:mt-64 bg-white lg:px-12">
+          <h1 className="px-8 text-3xl lg:text-5xl font-black leading-tight">
             My name is Bach. I am  a Senior Web Developer at Koala Digital.
           </h1>
-          <p className="mt-6 text-2xl lg:text-4xl leading-snug">
+          <p className="px-8 mt-6 text-2xl lg:text-4xl leading-snug">
             I provide 2 types of services: 1-Software Development: I build, extend, reskin websites, web applications and Shopify stores.
             2-Webmaster/Digital Production: I manage and deliver digital outcomes for your business, incl. marketing, development, designing & consolidated billing.
           </p>
