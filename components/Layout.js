@@ -24,8 +24,8 @@ export default function Layout({ pageName, pageImage, title, description, childr
                 <meta content="width=device-width, initial-scale=1" name="viewport" />
 
                 {/* CSS */}
-                <link href="/css/tailwind.css" rel="stylesheet" type="text/css" />
-                <link href="/css/custom.css" rel="stylesheet" type="text/css" />
+                <link href="css/tailwind.css" rel="stylesheet" type="text/css" />
+                <link href="css/custom.css" rel="stylesheet" type="text/css" />
 
                 {/* Favicons from favicon.io */}
                 <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png" />
