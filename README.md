@@ -29,7 +29,6 @@ More:
 
 - Generate your Favicons from Favicon.io https://favicon.io/ and put them in `public/images/favicon_io` directory
 - Update the `public/images/logo.png` to your own logo
-
 - (Optionally) Use Free SVG icons from Linear Icons https://linearicons.com/free
 - (Optionally) Update `index.js`, the Homepage and `[slug].js`, the Project page, to your liking
 - (Optionally) Use `TailwindCSS` utility CSS classes to style these 2 pages to your liking
@@ -68,6 +67,18 @@ To Netlify or SurgeSH:
 - Run `yarn out` to produce the `out` directory.
 - Only deploy the `out` directory.
 
+**IMPORTANT: If your are hosting the website under a sub-route or sub-path e.g. http://youwebsite.com/sub-route, update the `basePath` in the `next.config.js` file**
+
+```
+// next.config.js file
+
+module.exports = {
+    basePath: '/sub-route',
+    webpack: ...
+    exportPathMap: ...
+}
+```
+
 ## Images and Icons
 
 - Generate your Favicons from Favicon.io https://favicon.io/ and put them in `public/images/favicon_io` directory
@@ -77,13 +88,32 @@ To Netlify or SurgeSH:
 
 ## Common CLI
 
-- `yarn` Install the `node_modules`
-- `yarn dev` Develop the pages on `http://localhost:3000`
+Install the `node_modules`
+
+```
+$ yarn
+```
+
+Develop the pages on `http://localhost:3000`
+
+```
+$ yarn dev
+```
 
 To produce Static Website exports:
 
-- `yarn out` Output into Static files in the `out` folder.
-- Deploy the content of the `out` folder as the static website.
+```
+$ yarn out // Export to `out` directory
+$ yarn out-github // Export to `docs` directory
+```
+
+(Optionally) To test the local static folders:
+
+```
+$ yarn http-server
+$ cd docs
+$ http-server
+```
 
 To run a website on NextJS server:
 

@@ -1,6 +1,7 @@
 const glob = require("glob");
 
 module.exports = {
+  basePath: '/koaladigital-mini-website',
   webpack: (config, options) => {
     // const { isServer } = options;
     config.module.rules.push(
