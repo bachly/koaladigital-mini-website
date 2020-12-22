@@ -1,5 +1,7 @@
 # KoalaDigital Mini Website - A simple 2-Page Website Template without CMS
 
+![alt text](./__README/KoalaDigital-2-page-Mini-Website-Template.jpg)
+
 This is self-contained 2-page Website for Blog, Portfolio, Resume, CV, Profile, Project Showcase.
 
 After the site is exported into a static folder, you can host it for **FREE** on GitHub Pages, Netlify, or SurgeSH.
