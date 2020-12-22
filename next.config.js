@@ -2,6 +2,7 @@ const glob = require("glob");
 
 module.exports = {
   basePath: '/koaladigital-mini-website',
+  assetPrefix: '/koaladigital-mini-website/',
   trailingSlash: true, // so that `/about/` will redirect to `/about`
   webpack: (config, options) => {
     // const { isServer } = options;
