@@ -47,7 +47,7 @@ _Optional ways to extend the templates_
 $ yarn css   # this reates a new `/public/css/tailwind.css` file.
 ```
 
-- _Add your own Custom CSS: `/public/css/custom.css`.
+- \_Add your own Custom CSS: `/public/css/custom.css`.
 - _Use [NextJS CSS Support](https://nextjs.org/docs/basic-features/built-in-css-support)_
 
 ### Step 3 - (Optional) Add new page
@@ -119,36 +119,38 @@ module.exports = {
 
 Install the `node_modules`
 
-```
+```shell
 $ yarn
 ```
 
 Develop the pages on `http://localhost:3000`
 
-```
+```shell
 $ yarn dev
 ```
 
 To produce Static Website exports:
 
-```
-$ yarn out // Export to `out` directory
-$ yarn out-github // Export to `docs` directory
+```shell
+$ yarn out          # Export to `out` directory
+$ yarn out-github   # Export to `docs` directory
 ```
 
 (Optionally) To test the local static folders:
 
-```
-$ yarn http-server
-$ cd docs
-$ http-server
+```shell
+$ yarn global add http-server
+$ cd docs           # or `cd out`
+$ http-server       # this wil starts the http-server in the `docs` folder
 ```
 
 To run a website on NextJS server:
 
-- (Optionally) `yarn build` Built the optimised Production build if you use NextJS as a server
-- (Optionally) `yarn start` Run the NextJS server and serve the Production build
+```shell
+$ yarn build        # build the optimised Production build if you use NextJS as a server
+$ yarn start        # run the NextJS server and serve the Production build
+```
 
 ## Notes
 
-- Node version > 10 might be needed
+- Node version > `10.0.0` might be needed
