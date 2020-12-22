@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-const BRAND_COLOR_HEX = '#f00';
+const BRAND_COLOR_HEX = '#f00'; // For meta tag 'theme-color'
 
 export default function Layout({ pageName, pageImage, title, description, children }) {
     return (
@@ -9,7 +9,7 @@ export default function Layout({ pageName, pageImage, title, description, childr
                 <title>{title}</title>
 
                 {/* Meta Tags */}
-                <meta name=" theme-color" content={BRAND_COLOR_HEX}></meta>
+                <meta name="theme-color" content={BRAND_COLOR_HEX}></meta>
                 <meta charSet="utf-8" />
                 <meta
                     content={description}

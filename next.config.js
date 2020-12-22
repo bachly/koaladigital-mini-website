@@ -13,6 +13,10 @@ module.exports = {
     return config;
   },
   exportPathMap: async function () {
+    /**
+     * Define the static page routes
+     */
+
     const paths = {
       "/": { page: "/" } // Homepage: '/'
     };

@@ -1,6 +1,6 @@
 {
-  "name": "koaladigital_1page_dev_template",
-  "description": "Koala Digital's 1-page Developer Website Template",
+  "name": "koaladigital-mini-website",
+  "description": "Self-contained 2-page Website for Portfolio, Resume, CV, Profile, Project Showcase. Built with NextJS, ReactJS, TailwindCSS, Markdown. No CMS involved.",
   "version": "1.0.0",
   "license": "UNLICENSED",
   "private": true,
