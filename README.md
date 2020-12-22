@@ -1,6 +1,8 @@
 # KoalaDigital Mini Website - A simple 2-Page Website Template without CMS
 
-This is self-contained 2-page Website for Portfolio, Resume, CV, Profile, Project Showcase. After the site is exported into a static folder, you can host it for **FREE** on GitHub, Netlify, or SurgeSH.
+This is self-contained 2-page Website for Blog, Portfolio, Resume, CV, Profile, Project Showcase.
+
+After the site is exported into a static folder, you can host it for **FREE** on GitHub Pages, Netlify, or SurgeSH.
 
 This template uses:
 
@@ -56,13 +58,13 @@ More:
 
 ### Step 4 - Export and deploy
 
-To GitHub:
+For GitHub Pages:
 
 - Run `yarn out-github` to produce the `docs` directory, the root directory of the static website. The paths of the pages in here match what is defined in `exportPathMap()`.
 - Commit the `out` directory to GitHub.
 - In GitHub Pages settings, point to the `/docs` directory.
 
-To Netlify or SurgeSH:
+For Netlify or SurgeSH:
 
 - Run `yarn out` to produce the `out` directory.
 - Only deploy the `out` directory.

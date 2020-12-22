@@ -1,8 +1,7 @@
 const glob = require("glob");
 
 module.exports = {
-  basePath: '/koaladigital-mini-website',
-  assetPrefix: '/koaladigital-mini-website',
+  basePath: '/koaladigital-mini-website', // serving files from sub-path
   trailingSlash: true, // so that `/about/` will redirect to `/about`
   webpack: (config, options) => {
     // const { isServer } = options;

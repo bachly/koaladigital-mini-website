@@ -3,6 +3,7 @@ import ReactMarkdown from "react-markdown/with-html";
 import { IconChevronLeft } from "../../components/Icons";
 import Layout from "../../components/Layout";
 import Link from "next/link";
+import { useRouter } from 'next/router';
 
 function ProjectPage({ project }) {
     if (!project) return <div>PROJECT NOT FOUND</div>;
@@ -11,6 +12,8 @@ function ProjectPage({ project }) {
         attributes: { title, images, description },
         body
     } = project;
+
+    const { basePath } = useRouter();
 
     return (
         <Layout pageName='ProjectPage' title={title} description={description}>
@@ -22,8 +25,8 @@ function ProjectPage({ project }) {
                 </Link>
             </header>
             <article className="my-8 max-w-2xl mx-auto">
-                <div className="">
-                    <img className="block" src={images[0].src} />
+                <div>
+                    <img className="block" src={`${basePath}/${images[0].src}`} />
                 </div>
                 <div className="mt-8">
                     <h1 className="text-4xl leading-tight font-black mb-2 lg:mb-6">{title}</h1>
