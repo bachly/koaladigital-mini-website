@@ -4,8 +4,8 @@ import Layout from "../components/Layout";
 import Link from "next/link";
 
 const PAGE_NAME = 'Homepage';
-const PAGE_TITLE = `KoalaDigital | Developer Profile 1-page Website Template`;
-const PAGE_DESCRIPTION = `1-page Website Template for a Developer Profile, CV or Resume • It is built with ReactJS and TailwindCSS • Can be hosted as a Static Site or on GitHub`;
+const PAGE_TITLE = `KoalaDigital | 2-page Mini Website Template`;
+const PAGE_DESCRIPTION = `Free-hosting 2-page Website Template for a Profile, Portfolio, CV or Resume • NextJS with TailwindCSS • Static Site export for GitHub, Netlify and SurgeSH`;
 
 export default function HomePage({ projects }) {
   return (
