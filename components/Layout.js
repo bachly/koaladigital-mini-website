@@ -1,8 +1,11 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 const BRAND_COLOR_HEX = '#f00'; // For meta tag 'theme-color'
 
 export default function Layout({ pageName, pageImage, title, description, children }) {
+    const { basePath } = useRouter();
+
     return (
         <>
             <Head>
@@ -24,14 +27,14 @@ export default function Layout({ pageName, pageImage, title, description, childr
                 <meta content="width=device-width, initial-scale=1" name="viewport" />
 
                 {/* CSS */}
-                <link href="/css/tailwind.css" rel="stylesheet" type="text/css" />
-                <link href="/css/custom.css" rel="stylesheet" type="text/css" />
+                <link href={`${basePath}/css/tailwind.css`} rel="stylesheet" type="text/css" />
+                <link href={`${basePath}/css/custom.css`} rel="stylesheet" type="text/css" />
 
                 {/* Favicons from favicon.io */}
-                <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png" />
-                <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png" />
-                <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png" />
-                <link rel="manifest" href="/favicon_io/site.webmanifest" />
+                <link rel="apple-touch-icon" sizes="180x180" href={`${basePath}/favicon_io/apple-touch-icon.png`} />
+                <link rel="icon" type="image/png" sizes="32x32" href={`${basePath}/favicon_io/favicon-32x32.png`} />
+                <link rel="icon" type="image/png" sizes="16x16" href={`${basePath}/favicon_io/favicon-16x16.png`} />
+                <link rel="manifest" href={`${basePath}/favicon_io/site.webmanifest`} />
 
                 {/* Javascript */}
             </Head>
