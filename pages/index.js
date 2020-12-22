@@ -51,7 +51,7 @@ export default function HomePage({ projects }) {
 }
 
 HomePage.getInitialProps = async () => {
-  const projects = await importMd();
+  const projects = await importProjectsMd();
   return {
     projects
   };
@@ -95,8 +95,13 @@ function ProjectSnippet({ attributes, slug }) {
  * Reference:
  * https://medium.com/@shawnstern/importing-multiple-markdown-files-into-a-react-component-with-webpack-7548559fce6f
  * second flag in require.context function is TRUE if subdirectories should be searched
+ * 
+ * BE CAREFUL: 
+ * Don't make the '../content/projects' into an external constant or variable. 
+ * For some unknown reason, that will break the execution of require.context().
+ * Only change the string here.
  */
-async function importMd() {
+async function importProjectsMd() {
   const markdownFiles = require
     .context('../content/projects', false, /\.md$/)
     .keys()

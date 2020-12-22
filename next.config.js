@@ -14,17 +14,19 @@ module.exports = {
   },
   exportPathMap: async function () {
     /**
-     * Define the static page routes
+     * Define the static page paths
      */
 
     const paths = {
-      "/": { page: "/" } // Homepage: '/'
-    };
+      "/": { page: "/" }, // Homepage path: '/'
+      // "/about": { page: "/about" } // About path: '/about'
+    }
 
+    // Project paths: '/projects/[slug]'
     const projects = glob.sync("content/projects/*.md");
     const projectSlugs = projects.map((file) => file.split("/")[2].replace(/ /g, "-").slice(0, -3).trim());
     projectSlugs.forEach((slug) => {
-      paths[`/project/${slug}`] = { page: "/project/[slug]", query: { slug } };  // Project pages: '/project/...'
+      paths[`/project/${slug}`] = { page: "/project/[slug]", query: { slug } };
     });
 
     console.log("> Exporting following paths:", paths);
