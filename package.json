@@ -1,7 +1,7 @@
 {
-  "name": "koaladigital",
-  "description": "Koala Digital's homepage",
-  "version": "19.4.4",
+  "name": "koaladigital_1page_dev_template",
+  "description": "Koala Digital's 1-page Developer Website Template",
+  "version": "1.0.0",
   "license": "UNLICENSED",
   "private": true,
   "devDependencies": {
@@ -16,7 +16,7 @@
     "css": "postcss tailwind.css -o public/css/tailwind.css",
     "build": "next build",
     "start": "next start",
-    "export": "npm run build && next export"
+    "out": "npm run build && next export"
   },
   "dependencies": {
     "date-fns": "^2.14.0",

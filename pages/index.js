@@ -1,127 +1,110 @@
-import WorkPiece from "../components/workpiece";
+import React from "react";
+import ReactMarkdown from "react-markdown/with-html";
+import Layout from "../components/Layout";
 
-const sampleworks = [
-  {
-    title: `ResMed AirView`,
-    description: `ResMed is an ASX-listed, NASDAG-listed health company who
-        provides sleep-boosting products • I helped ResMed to develop a new interface for AirView, their
-        online Clinician Portal • The refreshed interface has helped
-        worldwide doctors to work more efficiently with their patient medical results`,
-    imageSrc: "/images/KoalaDigital_SampleWork_ResMedAirView.jpg",
-    imageAlt: "ResMed AirView",
-  },
-  {
-    title: `Cochlear Clinician Portal`,
-    description: `Cochlear is an ASX-listed, NASDAG-listed Australia company who
-      provide hearing solutions • I helped Cochlear to extend their
-      Remote Check Clinician Portal • The extended solution has helped clinicians
-      worldwide to provide better remote support to their patients`,
-    imageSrc: "/images/KoalaDigital_SampleWork_CochlearPortal.jpg",
-    imageAlt: "Cochlear Clinician Portal",
-  },
-  {
-    title: `CommSec Trading Platform`,
-    description: `CommSec is an ASX-listed online trading platform owned by the
-      Commonwealth Bank of Australia • I helped CommSec to develop
-      their new digital Onboarding Flow for new customers • The new
-      experience improved conversion rate by 40%`,
-    imageSrc: "/images/KoalaDigital_SampleWork_CommSec.jpg",
-    imageAlt: "CommSec Trading Platform",
-  },
-  {
-    title: `Pepper Money Website and Portal`,
-    description: `Pepper Money is an Australia non-bank lender with a
-      down-to-earth approach • I helped Pepper to refresh their
-      website and online customer portal • The new digital experience
-      has helped Pepper gain more customers and provide better support
-      to existing customers`,
-    imageSrc: "/images/KoalaDigital_SampleWork_PepperMoney.jpg",
-    imageAlt: "Pepper Money Website and Portal",
-  },
-  {
-    title: `Rowmark Australia Wholesale Store`,
-    description: `Rowmark Australia is the Australia official distributor of the
-      world-renowned Rowmark laser engraving materials • I helped
-      Rowmark Australia to develop their ecommerce store and landing
-      pages to increase online sales and engage new markets`,
-    imageSrc: "/images/KoalaDigital_SampleWork_RowmarkAustralia.jpg",
-    imageAlt: "Rowmark Australia Wholesale Store",
-  },
-  {
-    title: `Education Providers`,
-    description: `I helped UTS, UNSW and ANMFSA to
-      maintain and improve their Online Learning and Survey system. A well-integrated and well-maintained web application 
-      plays an important role in helping both teachers and students achieve the best outcomes`,
-    imageSrc: "/images/KoalaDigital_SampleWork_EducationProviders.jpg",
-    imageAlt: "Australian Education Providers",
-  },
-  {
-    title: `Online Retailers`,
-    description: `I helped Bing Lee, Paddy Pallin, Costume Box and Princess Polly to
-      maintain and improve their Online Stores. Professional Webmaster Service is crucial for these retailers to increase online sales.`,
-    imageSrc: "/images/KoalaDigital_SampleWork_OnlineRetailers.jpg",
-    imageAlt: "Australian Online Retailers",
-  },
-  {
-    title: `Web Development Service`,
-    description: `I can help you develop new websites, web apps or extensions for your existing websites. 
-    Our software are built on robust technology stack and architecture with user-friendly interfaces.`,
-    imageSrc: "",
-    imageAlt: "",
-  },
-  {
-    title: `Webmaster Service`,
-    description: `I can help you maintain your existing websites or online stores with a fixed monthly fee.
-    No need for an in-house web developer, yet always have someone available to do any work on your website 24/7.`,
-    imageSrc: "",
-    imageAlt: "",
-  },
-];
-function HomePage() {
+const PAGE_NAME = 'Homepage';
+const PAGE_TITLE = `KoalaDigital | Developer Profile 1-page Website Template`;
+const PAGE_DESCRIPTION = `1-page Website Template for a Developer Profile, CV or Resume • It is built with ReactJS and TailwindCSS • Can be hosted as a Static Site or on GitHub`;
+
+export default function HomePage({ projects }) {
   return (
-    <div className="bg-white pt-12 text-gray-900">
-      <header className="mt-6 lg:mt-64 bg-white px-8 lg:px-12">
-        <div className="lg:max-w-lg lg:max-w-full px-8">
-          <h1 className="text-2xl lg:text-5xl font-black leading-tight">
-            KoalaDigital / Custom Web Solutions in Ryde, Sydney Australia
+    <Layout pageName={PAGE_NAME} title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+      <div className="bg-white pt-12 text-gray-900">
+        <header className="mt-6 lg:mt-64 bg-white px-8 lg:px-12">
+          <h1 className="text-3xl lg:text-5xl font-black leading-tight">
+            My name is Bach. I am  a Senior Web Developer at Koala Digital.
           </h1>
           <p className="mt-6 text-2xl lg:text-4xl leading-snug">
-            I am Bach • I work with business of any size to build new or extend
-            their Web applications and Shopify stores • With a fixed monthly
-            fee, you can have me as your Webmaster who will maintain and enhance
-            your web application on demand.
+            I provide 2 types of services: 1-Software Development: I build, extend, reskin websites, web applications and Shopify stores.
+            2-Webmaster/Digital Production: I manage and deliver digital outcomes for your business, incl. marketing, development, designing & consolidated billing.
           </p>
-        </div>
-      </header>
+        </header>
 
-      <section className="mt-24 px-0 lg:mt-48 lg:px-12">
-        <div className="mx-auto lg:max-w-full">
-          <h2 className="text-3xl px-8 lg:text-4xl font-bold leading-tight">
-            Sample work
+        <section className="mt-24 px-0 lg:mt-48 lg:px-12">
+          <div className="mx-auto lg:max-w-full">
+            <h2 className="text-2xl px-8 lg:text-4xl font-bold leading-tight">
+              Sample work
           </h2>
-          <div className="flex flex-wrap mt-12 lg:mt-24">
-            {sampleworks.map((workpiece, index) => (
-              <WorkPiece key={index} {...workpiece} />
-            ))}
+            <div className="flex flex-wrap mt-12 lg:mt-24">
+              {projects.map((project, index) => (
+                <div key={index} className="w-full md:w-1/2 lg:w-1/3 mb-16 px-8">
+                  <ProjectSnippet key={index} {...project} />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="mt-24 lg:mt-48 px-0 lg:px-16 py-12 lg:py-24 bg-black text-gray-400">
-        <div className="px-4 lg:max-w-full">
-          <h2 className="text-xl md:text-2xl lg:text-5xl font-bold leading-tight">
-            Whether you develop a custom web application, refresh an existing
-            web interface, or simply need a webmaster who can look after your
-            digital presence,{" "}
-            <a className="text-gray-700" href="mailto:bach@koaladigital.com.au">
-              email me
-            </a>
-            . First consultation is free.{` `}
+        <section className="mt-24 lg:mt-48 px-0 lg:px-16 py-12 lg:py-24 bg-black text-gray-400">
+          <div className="px-4 lg:max-w-full">
+            <h2 className="text-xl md:text-2xl lg:text-5xl font-bold leading-tight">
+              Whether you need to develop something new, fix something broken or just a free advice, please{" "}
+              <a className="text-gray-700" href="mailto:bach@koaladigital.com.au">
+                email me
+            </a>.
           </h2>
-        </div>
-      </section>
-    </div>
+          </div>
+        </section>
+      </div>
+    </Layout>
   );
 }
 
-export default HomePage;
+HomePage.getInitialProps = async () => {
+  const projects = await importMd();
+  return {
+    projects
+  };
+};
+
+
+/**
+ * React component to render Project Snippet
+ */
+function ProjectSnippet({ attributes, slug }) {
+  const { title, description, images } = attributes;
+  return (
+    <a href={`/project/${slug}`} className="block hover:opacity-75 transition duration-200">
+      <div className="relative">
+        {images[0] ? (
+          <img
+            src={images[0].src}
+            alt={title}
+            className="object-cover rounded-sm border border-gray-300 shadow-md"
+          />
+        ) : (
+            <div className="bg-gray-200 pt-2/3"></div>
+          )}
+      </div>
+      <h3 className="text-xl lg:text-2xl mt-4 mb-2 font-bold">{title}</h3>
+      <div className="text-lg lg:text-xl text-gray-900 leading-snug">
+        <ReactMarkdown
+          escapeHtml={false}
+          source={description}></ReactMarkdown>
+      </div>
+    </a>
+  );
+}
+
+
+/**********************************************************/
+/******************* Support Functions ********************/
+/**********************************************************/
+
+/**
+ * Reference:
+ * https://medium.com/@shawnstern/importing-multiple-markdown-files-into-a-react-component-with-webpack-7548559fce6f
+ * second flag in require.context function is TRUE if subdirectories should be searched
+ */
+async function importMd() {
+  const markdownFiles = require
+    .context('../content/projects', false, /\.md$/)
+    .keys()
+    .map((relativePath) => relativePath.substring(2));
+  return Promise.all(
+    markdownFiles.map(async (path) => {
+      const markdown = await import(`../content/projects/${path}`);
+      return { ...markdown, slug: path.substring(0, path.length - 3) };
+    })
+  );
+};
